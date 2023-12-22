@@ -25,7 +25,7 @@ class Skill():
     def getSkillLevel(self):
         return self.__skill_level
     
-    def gainSkillProficiency(self, value):
+    def gainSkillProficiency(self, value:float):
         self.__skill_exp += value
     
     def levelUpSkill(self):
@@ -98,7 +98,7 @@ class Tempest(Skill):
     def getConsecutiveAttack(self):
         return self.__consecutive_attack
     
-    def useSkill(self, hero, target):
+    def useSkill(self, hero:classmethod, target:classmethod):
         self.gainSkillProficiency(50 + 12 * target.getLevel())
         hero.setMana(-self.getSkillCost())
         damage = self.getSkillPower() + (self.getSkillPower() * self.getSkillLevel() * self.getPowerGrowth())

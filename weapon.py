@@ -76,7 +76,7 @@ class Bloodvalor(Weapon, Skill):
         shield = self.getShieldBuff() + (self.getShieldBuff() * self.getShieldMultiplier())
         return shield
     
-    def useWeaponAbility(self, hero:classmethod, target:classmethod):
+    def useAbility(self, hero:classmethod, target:classmethod):
         damage = self.getAbilityDamage() - target.getDefense() * target.getLevel()
         if damage <= 0:
             damage = 0
@@ -102,7 +102,7 @@ class Bloodvalor(Weapon, Skill):
 
 class Zephyr(Weapon, Skill):
     def __init__(self) -> None:
-        Weapon.__init__(self, "Zephyr Embrace", 87, Skill.__init__(self, "Galeweave", 73, 82, "magical"))
+        super().__init__("Zephyr Embrace", 87, Skill.__init__(self, "Galeweave", 73, 82, "magical"))
 
     def useAbility(self, hero:classmethod, target:classmethod):
         pass

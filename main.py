@@ -1,19 +1,17 @@
 from skill import Skill, Bloodbound, Tempest
-from weapon import Weapon, Bloodvalor 
+from weapon import Weapon, Bloodvalor, Zephyr 
 from hero import Hero, Mage, Fighter
 
-Claire = Hero("Claire li Britania", 580, 180, 15, 25, 21, Mage("wind"))
-Aldric = Hero("Sir Aldric of The Ironheart", 940, 100, 35, 20, 14, Fighter("blood"))
-
-Staff = Weapon("Zephyr Embrace", 87, Skill("Galeweave", 73, 82, "magical"))
+Claire = Hero("Claire li Britania", 580, 180, 15, 25, 25, Mage("wind"))
+Aldric = Hero("Sir Aldric of The Ironheart", 940, 100, 35, 20, 15, Fighter("blood"))
 
 Aldric.setWeapon(Bloodvalor())
-Claire.setWeapon(Staff)
+Claire.setWeapon(Zephyr())
 
 Aldric.setSkill(Bloodbound())
 Claire.setSkill(Tempest())
 
-Aldric.getWeapon().useWeaponAbility(Aldric, Claire)
+Aldric.useWeaponAbility(Aldric, Claire)
 Claire.attack(Aldric)
 Claire.attack(Aldric)
 Claire.attack(Aldric)

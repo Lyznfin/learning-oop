@@ -26,13 +26,13 @@ class Hero:
     def getHealth(self):
         return self.__health
     
-    def setHealth(self, value):
+    def setHealth(self, value:float):
         self.__health += value
     
     def getMana(self):
         return self.__mana
     
-    def setMana(self, value):
+    def setMana(self, value:float):
         self.__mana += value
     
     def getMaxMana(self):
@@ -41,19 +41,19 @@ class Hero:
     def getDefense(self):
         return self.__defense
     
-    def setDefense(self, value):
+    def setDefense(self, value:float):
         self.__defense += value
     
     def getResistance(self):
         return self.__resistance
     
-    def setResistance(self, value):
+    def setResistance(self, value:float):
         self.__resistance += value
 
     def getAttackPower(self):
         return self.__attack_power
     
-    def setAttackPower(self, value):
+    def setAttackPower(self, value:float):
         self.__attack_power += value
     
     def getStatus(self):
@@ -74,13 +74,13 @@ class Hero:
     def getRole(self):
         return self.__role
     
-    def setWeapon(self, weapon):
+    def setWeapon(self, weapon:classmethod):
         self.__weapon = weapon
 
     def getWeapon(self):
         return self.__weapon
 
-    def setSkill(self, skill):
+    def setSkill(self, skill:classmethod):
         self.__skill = skill
 
     def getSkill(self):
@@ -89,13 +89,13 @@ class Hero:
     def getShield(self):
         return self.__shield
     
-    def setShield(self, value):
+    def setShield(self, value:float):
         self.__shield = value
 
-    def addShield(self, value):
+    def addShield(self, value:float):
         self.__shield += value
 
-    def attack(self, target):
+    def attack(self, target:classmethod):
         if not self.getStatus():
             print("{} is dead, cannot attack".format(self.getName()))
             return
@@ -109,7 +109,7 @@ class Hero:
         else:
             return self.getRole().attack(self, target)
         
-    def useSkill(self, target):
+    def useSkill(self, target:classmethod):
         if not self.getStatus():
             print("{} is dead, cannot attack".format(self.getName()))
             return
@@ -126,7 +126,7 @@ class Hero:
         else:
             self.getSkill().useSkill(self, target)
         
-    def useAbility(self, target):
+    def useAbility(self, target:classmethod):
         if not self.getStatus():
             print("{} is dead, cannot use ability".format(self.getName()))
             return
@@ -136,7 +136,10 @@ class Hero:
         else:
             return self.getWeapon().useAbility(self, target)
 
-    def reduceDamage(self, damage):
+    def useWeaponAbility(self, attacker:classmethod, target:classmethod):
+        self.getWeapon().useAbility(attacker, target)
+
+    def reduceDamage(self, damage:int):
         if damage <= self.getShield() and self.getShield() != 0:
             print('{} points damage has completely been absorbed'.format(damage, self.getName()))
             self.addShield(-damage)
@@ -151,7 +154,7 @@ class Hero:
             self.setShield(0)
         return damage
 
-    def attacked(self, attacker, damage):
+    def attacked(self, attacker:classmethod, damage:classmethod):
         if self.getShield() > 0:
             damage = self.reduceDamage(damage)
         self.setHealth(-round(damage))
@@ -169,7 +172,7 @@ class Hero:
             else:
                 print(self.infoHp)
 
-    def setExp(self, exp):
+    def setExp(self, exp:float):
         self.__exp += exp
         if self.getExp() >= self.getExpTreshold():
             self.levelUp()
