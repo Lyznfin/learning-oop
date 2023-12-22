@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Hero:
+class Character:
     def __init__(self, name:str, hp:float, mp:float, dp:float, rp:float, ap:float, role:classmethod) -> None:
         self.__name = name
         self.__max_health = hp
@@ -267,10 +267,10 @@ class Hero:
 
 class Role(ABC):
     @abstractmethod
-    def attack(self, hero:Hero, target:Hero):
+    def attack(self, hero:Character, target:Character):
         pass
 
-class Mage(Role):
+class Wizard(Role):
     def __init__(self, element) -> None:
         self.__role = "magician"
         self.__element = element
@@ -317,7 +317,7 @@ class Mage(Role):
     def getManaRegen(self):
         return self.__mana_regen
 
-    def attack(self, hero: Hero, target: Hero):
+    def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.getLevel() / target.getLevel()
         damage = hero.getWeapon().getWeaponPower() * 0.5 + (hero.getAttackPower() - target.getResistance() * target.getLevel()) * damage_multiplier
         hero.setMana(-self.getManaCost())
@@ -335,7 +335,7 @@ class Mage(Role):
         print(hero.infoMp)
         target.attacked(hero, damage)
 
-class Fighter(Role):
+class Knight(Role):
     def __init__(self, aura) -> None:
         self.__role = "warrior"
         self.__aura = aura
@@ -386,7 +386,7 @@ class Fighter(Role):
     def getManaRegen(self):
         return self.__mana_regen
     
-    def attack(self, hero: Hero, target: Hero):
+    def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.getLevel() / target.getLevel()
         damage = hero.getWeapon().getWeaponPower() * 0.5 + (hero.getAttackPower() - target.getDefense() * target.getLevel()) * damage_multiplier
         damage += self.getHealthCost() * damage_multiplier

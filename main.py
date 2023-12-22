@@ -1,9 +1,9 @@
 from skill import Skill, Bloodbound, Tempest
 from weapon import Weapon, Bloodvalor, Zephyr 
-from hero import Hero, Mage, Fighter
+from hero import Character, Wizard, Knight
 
-Claire = Hero("Claire li Britania", 580, 180, 15, 25, 25, Mage("wind"))
-Aldric = Hero("Sir Aldric of The Ironheart", 940, 100, 35, 20, 15, Fighter("blood"))
+Claire = Character("Claire li Britania", 580, 180, 15, 25, 25, Wizard("wind"))
+Aldric = Character("Sir Aldric of The Ironheart", 940, 100, 35, 20, 15, Knight("blood"))
 
 Aldric.setWeapon(Bloodvalor())
 Claire.setWeapon(Zephyr())
