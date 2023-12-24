@@ -85,9 +85,12 @@ class Bloodvalor(Weapon, Skill):
         if self.getSkillCost() <= hero.getMana():
             hero.setMana(-self.getSkillCost())
             hero.addShield(self.getAbilityShield())
-            print("{} casted Ironheart Resilience, create {} points of shield and dealt {} damage to {}".format(
+            print("{} casted Ironheart Resilience, create {} points of shield".format(
                 hero.getName(),
-                self.getAbilityShield(),
+                self.getAbilityShield()
+            ))
+            print("{} exude a heavy, bloodlusted aura, dealing {} damage to {}".format(
+                hero.getName(),
                 damage,
                 target.getName()
             ))
@@ -103,6 +106,45 @@ class Bloodvalor(Weapon, Skill):
 class Zephyr(Weapon, Skill):
     def __init__(self) -> None:
         super().__init__("Zephyr Embrace", 87, Skill.__init__(self, "Galeweave", 73, 82, "magical"))
+        self.__buff_multiplier = 0.5
+        self.__buff_growth = 1
+        self.__damage_growth = 0.2
+
+    def getAbilityGrowth(self):
+        return self.__damage_growth
+
+    def getAbilityDamage(self):
+        damage = self.getWeaponPower() + (self.getWeaponLevel() * self.getWeaponPower() * self.getAbilityGrowth()) + (self.getSkillPower() * self.getSkillLevel())
+        return damage
+    
+    def getAttackBuff(self):
+        buff = self.__buff_multiplier * self.getWeaponPower()
+        buff += self.__buff_growth * buff
+        return buff
 
     def useAbility(self, hero:classmethod, target:classmethod):
-        pass
+        damage = self.getAbilityDamage() - target.getResistance() * target.getLevel()
+        if damage <= 0:
+            damage = 0
+            return
+    
+        if self.getSkillCost() <= hero.getMana():
+            hero.setMana(-self.getSkillCost())
+            hero.setAttackPower(self.getAttackBuff())
+            print("{} casted Galeweave, increased {} points of attack".format(
+                hero.getName(),
+                self.getAttackBuff()
+            ))
+            print("By the grace of the wind, {} summons a wind vortex, dealing {} damage tp {}".format(
+                hero.getName(),
+                damage,
+                target.getName()
+            ))
+            target.attacked(hero, damage)
+        else:
+            print(hero.infoMp)
+            print("{} mana is less than {}, cannot use {} ability".format(
+                hero.getName(), 
+                self.getWeaponAbility().getSkillCost(),
+                self.getWeaponName()))
+            return

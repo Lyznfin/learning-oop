@@ -12,11 +12,7 @@ Aldric.setSkill(Bloodbound())
 Claire.setSkill(Tempest())
 
 Aldric.useWeaponAbility(Aldric, Claire)
-Claire.attack(Aldric)
-Claire.attack(Aldric)
-Claire.attack(Aldric)
-Claire.attack(Aldric)
-Claire.attack(Aldric)
+Claire.useWeaponAbility(Claire, Aldric)
 
 print(Claire.__dict__)
 print(Aldric.__dict__)
