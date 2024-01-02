@@ -1,5 +1,5 @@
-from skill import Skill, Bloodbound, Tempest
-from weapon import Weapon, Bloodvalor, Zephyr 
+from skill import Bloodbound, Tempest
+from weapon import Bloodvalor, Zephyr 
 from hero import Character, Wizard, Knight
 
 Claire = Character("Claire li Britania", 580, 180, 15, 25, 25, Wizard("wind"))
