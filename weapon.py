@@ -1,18 +1,17 @@
 from skill import Skill
-from abc import ABC, abstractmethod
+from enum import Enum
 
-weapon_types = {
-    'T1': 'Sword', 
-    'T2': 'Polearm', 
-    'T3': 'Bow', 
-    'T4': 'Wand', 
-    'T5': 'Axe', 
-    'T6': 'Firearm', 
-    'T7': 'Gauntlet', 
-    'T8': 'Orb', 
-    'T9':'Hammer', 
-    'T10': 'Unique'
-}
+class Weapon_Types(Enum):
+    T1 = 'Sword'
+    T2 = 'Polearm'
+    T3 = 'Bow'
+    T4 = 'Wand'
+    T5 = 'Axe'
+    T6 = 'Firearm'
+    T7 = 'Gauntlet'
+    T8 = 'Orb'
+    T9 = 'Hammer'
+    T10 = 'Unique'
 
 class Weapon():
     def __init__(self, name:str, type:str, power:float, ability:classmethod) -> None:
@@ -49,7 +48,7 @@ class Weapon():
         
 class Bloodvalor(Weapon, Skill):
     def __init__(self) -> None:
-        super().__init__("Bloodvalor Reach", weapon_types.get('T2'), 54, Skill.__init__(self, "Ironheart Resilience", 41, 55, "physical"))
+        super().__init__("Bloodvalor Reach", Weapon_Types.T2.value, 54, Skill.__init__(self, "Ironheart Resilience", 41, 55, "physical"))
         self.__shield_buff = 100
         self.__shield_multiplier = 0.5
         self.__damage_growth = 0.2
@@ -100,7 +99,7 @@ class Bloodvalor(Weapon, Skill):
 
 class Zephyr(Weapon, Skill):
     def __init__(self) -> None:
-        super().__init__("Zephyr Embrace", weapon_types.get('T4'), 87, Skill.__init__(self, "Galeweave", 73, 82, "magical"))
+        super().__init__("Zephyr Embrace",  Weapon_Types.T4.value, 87, Skill.__init__(self, "Galeweave", 73, 82, "magical"))
         self.__buff_multiplier = 0.5
         self.__buff_growth = 1
         self.__damage_growth = 0.2

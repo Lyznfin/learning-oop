@@ -21,6 +21,9 @@ class STR(Stat):
     @classmethod
     def get_ammount(cls) -> int:
         return cls.__ammount
+    
+    def get_attribute(self) -> float:
+        pass
 
 class DEX(Stat):
     __ammount = 0
@@ -31,6 +34,9 @@ class DEX(Stat):
     def get_ammount(cls):
         return cls.__ammount
     
+    def get_attribute(self) -> float:
+        pass
+    
 class CON(Stat):
     __ammount = 0
     def __init__(self, val) -> None:
@@ -39,6 +45,9 @@ class CON(Stat):
     @classmethod
     def get_ammount(cls):
         return cls.__ammount
+    
+    def get_attribute(self) -> float:
+        pass
     
 class INT(Stat):
     __ammount = 0
@@ -49,6 +58,9 @@ class INT(Stat):
     def get_ammount(cls):
         return cls.__ammount
     
+    def get_attribute(self) -> float:
+        pass
+    
 class WIS(Stat):
     __ammount = 0
     def __init__(self, val) -> None:
@@ -57,6 +69,9 @@ class WIS(Stat):
     @classmethod
     def get_ammount(cls):
         return cls.__ammount
+    
+    def get_attribute(self) -> float:
+        pass
 
 class Stats():
     def __init__(self, str, dex, con, int, wis) -> None:
@@ -67,19 +82,19 @@ class Stats():
         self.__WIS = wis
 
     def get_STR(self):
-        pass
+        return self.__STR
 
     def get_DEX(self):
-        pass
+        return self.__DEX
 
     def get_CON(self):
-        pass
+        return self.__CON
 
     def get_INT(self):
-        pass
+        return self.__INT
 
     def get_WIS(self):
-        pass
+        return self.__WIS
 
     def set_health(self):
         pass
@@ -93,21 +108,25 @@ class Stats():
     def set_crit(self):
         pass
 
+    def set_attack_speed(self):
+        pass
+
     def set_defense(self):
         pass
     
     def set_resistance(self):
         pass
 
-
+    def set_weapon_attack(self):
+        pass
 
     def print_stats(self):
         print('STR: {} \nDEX: {} \nCON: {} \nINT: {} \nWIS: {}'.format(
-            self.STR.get_ammount(),
-            self.DEX.get_ammount(),
-            self.CON.get_ammount(),
-            self.INT.get_ammount(),
-            self.WIS.get_ammount()
+            self.get_STR().get_ammount(),
+            self.get_DEX().get_ammount(),
+            self.get_CON().get_ammount(),
+            self.get_INT().get_ammount(),
+            self.get_WIS().get_ammount()
         ))
     
 
