@@ -1,9 +1,19 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 
 #might be ridiculous, but belive me, this spageth classes is intentional
 #well, as one might say, its for the purpose of research (i actually have no idea why im doing this)
 
-class Stat(ABC):
+class Base_Stats(Enum):
+    HP = 400
+    MP = 150
+    SP = 120
+    DEF = 15
+    RES = 10
+    CRIT = 0.15
+    ASPD = 1
+
+class Attribute(ABC):
     @classmethod
     @abstractmethod
     def get_ammount(cls) -> int:
@@ -13,10 +23,10 @@ class Stat(ABC):
     def get_attribute(self) -> float:
         pass
 
-class STR(Stat):
-    __ammount = 0
+class STR(Attribute):
+    __ammount = 5
     def __init__(self, val) -> None:
-        STR.__ammount = val
+        STR.__ammount += val
 
     @classmethod
     def get_ammount(cls) -> int:
@@ -25,10 +35,10 @@ class STR(Stat):
     def get_attribute(self) -> float:
         pass
 
-class DEX(Stat):
-    __ammount = 0
+class DEX(Attribute):
+    __ammount = 5
     def __init__(self, val) -> None:
-        DEX.__ammount = val
+        DEX.__ammount += val
 
     @classmethod
     def get_ammount(cls):
@@ -37,10 +47,10 @@ class DEX(Stat):
     def get_attribute(self) -> float:
         pass
     
-class CON(Stat):
-    __ammount = 0
+class CON(Attribute):
+    __ammount = 5
     def __init__(self, val) -> None:
-        CON.__ammount = val
+        CON.__ammount += val
 
     @classmethod
     def get_ammount(cls):
@@ -49,10 +59,10 @@ class CON(Stat):
     def get_attribute(self) -> float:
         pass
     
-class INT(Stat):
-    __ammount = 0
+class INT(Attribute):
+    __ammount = 5
     def __init__(self, val) -> None:
-        INT.__ammount = val
+        INT.__ammount += val
 
     @classmethod
     def get_ammount(cls):
@@ -61,10 +71,10 @@ class INT(Stat):
     def get_attribute(self) -> float:
         pass
     
-class WIS(Stat):
-    __ammount = 0
+class WIS(Attribute):
+    __ammount = 5
     def __init__(self, val) -> None:
-        WIS.__ammount = val
+        WIS.__ammount += val
 
     @classmethod
     def get_ammount(cls):

@@ -1,3 +1,12 @@
+from enum import Enum
+
+class Skill_Type(Enum):
+    T1 = 'physical'
+    T2 = 'magical'
+    T3 = 'divine'
+    T4 = 'hybrid'
+    T5 = 'true'
+
 class Skill():
     def __init__(self, name:str, power:float, cost:float, type:str) -> None:
         self.__skill_name = name
@@ -37,7 +46,7 @@ class Skill():
     
 class Bloodbound(Skill):
     def __init__(self) -> None:
-        super().__init__("Bloodbound Vengeance", 126, 75, "physical")
+        super().__init__("Bloodbound Vengeance", 126, 75, Skill_Type.T1.value)
         self.__buff = 1.5
         self.__buff_growth = 1
         self.__power_growth = 0.2
@@ -91,7 +100,7 @@ class Bloodbound(Skill):
 
 class Tempest(Skill):
     def __init__(self) -> None:
-        super().__init__("Tempest Razorslash", 62, 95, "magical")
+        super().__init__("Tempest Razorslash", 62, 95, Skill_Type.T2.value)
         self.__power_growth = 0.2
         self.__consecutive_attack = 3
     

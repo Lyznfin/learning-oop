@@ -1,4 +1,4 @@
-from skill import Skill
+from skill import Skill, Skill_Type
 from enum import Enum
 
 class Weapon_Types(Enum):
@@ -48,7 +48,7 @@ class Weapon():
         
 class Bloodvalor(Weapon, Skill):
     def __init__(self) -> None:
-        super().__init__("Bloodvalor Reach", Weapon_Types.T2.value, 54, Skill.__init__(self, "Ironheart Resilience", 41, 55, "physical"))
+        super().__init__("Bloodvalor Reach", Weapon_Types.T2.value, 54, Skill.__init__(self, "Ironheart Resilience", 41, 55, Skill_Type.T1.value))
         self.__shield_buff = 100
         self.__shield_multiplier = 0.5
         self.__damage_growth = 0.2
@@ -99,7 +99,7 @@ class Bloodvalor(Weapon, Skill):
 
 class Zephyr(Weapon, Skill):
     def __init__(self) -> None:
-        super().__init__("Zephyr Embrace",  Weapon_Types.T4.value, 87, Skill.__init__(self, "Galeweave", 73, 82, "magical"))
+        super().__init__("Zephyr Embrace",  Weapon_Types.T4.value, 87, Skill.__init__(self, "Galeweave", 73, 82, Skill_Type.T2.value))
         self.__buff_multiplier = 0.5
         self.__buff_growth = 1
         self.__damage_growth = 0.2
