@@ -16,3 +16,8 @@ Claire.useWeaponAbility(Claire, Aldric)
 
 print(Claire.__dict__)
 print(Aldric.__dict__)
+
+game = True
+
+while game != False:
+    pass

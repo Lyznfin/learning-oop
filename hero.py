@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Character:
+class Character():
     def __init__(self, name:str, hp:float, mp:float, dp:float, rp:float, ap:float, role:classmethod) -> None:
         self.__name = name
         self.__max_health = hp
@@ -16,6 +16,9 @@ class Character:
         self.__isAlive = True
         self.__role = role
         self.__exp_treshold = self.getLevel() * 2 * 50
+
+    def set_stats(self, stats:classmethod):
+        pass
 
     def getName(self):
         return self.__name
@@ -85,7 +88,7 @@ class Character:
 
     def getSkill(self):
         return self.__skill
-    
+
     def getShield(self):
         return self.__shield
     
@@ -137,7 +140,7 @@ class Character:
             return self.getWeapon().useAbility(self, target)
 
     def useWeaponAbility(self, attacker:classmethod, target:classmethod):
-        self.getWeapon().useAbility(attacker, target)
+        self.getWeapon().use_ability(attacker, target)
 
     def reduceDamage(self, damage:int):
         if damage <= self.getShield() and self.getShield() != 0:
