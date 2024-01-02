@@ -119,7 +119,7 @@ class Character():
         elif not target.getStatus():
             print("{} is dead, cannot be attacked".format(target.getName()))
             return
-        if self.getSkill().getSkillCost() > self.getMana():
+        if self.getSkill().get_skill_cost() > self.getMana():
             print(self.infoMp)
             print("{} doesnt have enough mana to use skill: {}".format(
                 self.getName(),
@@ -127,7 +127,7 @@ class Character():
             ))
             return
         else:
-            self.getSkill().useSkill(self, target)
+            self.getSkill().use_skill(self, target)
         
     def useAbility(self, target:classmethod):
         if not self.getStatus():

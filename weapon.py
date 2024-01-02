@@ -1,4 +1,5 @@
 from skill import Skill
+from abc import ABC, abstractmethod
 
 weapon_types = {
     'T1': 'Sword', 
@@ -44,30 +45,7 @@ class Weapon():
         self.__weapon_exp += val
 
     def use_ability(self, hero:classmethod, target:classmethod):
-        if self.get_weapon_ability().getSkillCost() <= hero.getMana():
-            hero.setMana(-self.get_weapon_ability().getSkillCost())
-            damage = self.get_weapon_power() * self.get_weapon_level() + self.get_weapon_ability().getSkillPower() * self.get_weapon_ability().getSkillLevel()
-            if self.get_weapon_ability().getSkillType() == "magical":
-                damage -= target.getResistance() * target.getLevel()
-            elif self.get_weapon_ability().getSkillType() == "physical":
-                damage -= target.getDefense() * target.getLevel()
-            print("{} is using {} ability: {} and dealt {} damage to {}".format(
-                hero.getName(),
-                self.get_weapon_name(),
-                self.get_weapon_ability().getSkillName(),
-                damage,
-                target.getName()
-            ))
-            print("{} consumed {} mana".format(self.get_weapon_ability().getSkillName(), self.get_weapon_ability().getSkillCost()))
-            print(hero.infoMp)
-            target.attacked(hero, damage)
-        else:
-            print(hero.infoMp)
-            print("{} mana is less than {}, cannot use {} ability".format(
-                hero.getName(), 
-                self.get_weapon_ability().getSkillCost(),
-                self.get_weapon_name()))
-            return
+        pass
         
 class Bloodvalor(Weapon, Skill):
     def __init__(self) -> None:
@@ -76,35 +54,35 @@ class Bloodvalor(Weapon, Skill):
         self.__shield_multiplier = 0.5
         self.__damage_growth = 0.2
 
-    def getAbilityGrowth(self):
+    def get_ability_growth(self):
         return self.__damage_growth
     
-    def getShieldBuff(self):
+    def get_shield_buff(self):
         return self.__shield_buff
     
-    def getShieldMultiplier(self):
-        return self.__shield_multiplier * self.getSkillLevel()
+    def get_shield_multiplier(self):
+        return self.__shield_multiplier * self.get_skill_level()
     
-    def getAbilityDamage(self):
-        damage = self.get_weapon_power() + (self.get_weapon_level() * self.get_weapon_power() * self.getAbilityGrowth()) + (self.getSkillPower() * self.getSkillLevel())
+    def get_ability_damage(self):
+        damage = self.get_weapon_power() + (self.get_weapon_level() * self.get_weapon_power() * self.get_ability_growth()) + (self.get_skill_power() * self.get_skill_level())
         return damage
 
-    def getAbilityShield(self):
-        shield = self.getShieldBuff() + (self.getShieldBuff() * self.getShieldMultiplier())
+    def get_ability_shield(self):
+        shield = self.get_shield_buff() + (self.get_shield_buff() * self.get_shield_multiplier())
         return shield
     
     def use_ability(self, hero:classmethod, target:classmethod):
-        damage = self.getAbilityDamage() - target.getDefense() * target.getLevel()
+        damage = self.get_ability_damage() - target.getDefense() * target.getLevel()
         if damage <= 0:
             damage = 0
             return
         
-        if self.getSkillCost() <= hero.getMana():
-            hero.setMana(-self.getSkillCost())
-            hero.addShield(self.getAbilityShield())
+        if self.get_skill_cost() <= hero.getMana():
+            hero.setMana(-self.get_skill_cost())
+            hero.addShield(self.get_ability_shield())
             print("{} casted Ironheart Resilience, create {} points of shield".format(
                 hero.getName(),
-                self.getAbilityShield()
+                self.get_ability_shield()
             ))
             print("{} exude a heavy, bloodlusted aura, dealing {} damage to {}".format(
                 hero.getName(),
@@ -127,30 +105,30 @@ class Zephyr(Weapon, Skill):
         self.__buff_growth = 1
         self.__damage_growth = 0.2
 
-    def getAbilityGrowth(self):
+    def get_ability_growth(self):
         return self.__damage_growth
 
-    def getAbilityDamage(self):
-        damage = self.get_weapon_power() + (self.get_weapon_level() * self.get_weapon_power() * self.getAbilityGrowth()) + (self.getSkillPower() * self.getSkillLevel())
+    def get_ability_damage(self):
+        damage = self.get_weapon_power() + (self.get_weapon_level() * self.get_weapon_power() * self.get_ability_growth()) + (self.get_skill_power() * self.get_skill_level())
         return damage
     
-    def getAttackBuff(self):
+    def get_attack_buff(self):
         buff = self.__buff_multiplier * self.get_weapon_power()
         buff += self.__buff_growth * buff
         return buff
 
     def use_ability(self, hero:classmethod, target:classmethod):
-        damage = self.getAbilityDamage() - target.getResistance() * target.getLevel()
+        damage = self.get_ability_damage() - target.getResistance() * target.getLevel()
         if damage <= 0:
             damage = 0
             return
     
-        if self.getSkillCost() <= hero.getMana():
-            hero.setMana(-self.getSkillCost())
-            hero.setAttackPower(self.getAttackBuff())
+        if self.get_skill_cost() <= hero.getMana():
+            hero.setMana(-self.get_skill_cost())
+            hero.setAttackPower(self.get_attack_buff())
             print("{} casted Galeweave, increased {} points of attack".format(
                 hero.getName(),
-                self.getAttackBuff()
+                self.get_attack_buff()
             ))
             print("By the grace of the wind, {} summons a wind vortex, dealing {} damage tp {}".format(
                 hero.getName(),
