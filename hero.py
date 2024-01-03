@@ -2,12 +2,10 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 class Character():
-    def __init__(self, name:str, hp:float, mp:float, ap:float, role:classmethod) -> None:
+    def __init__(self, name:str, ap:float, role:classmethod) -> None:
         self.__name = name
-        self.__max_health = hp
-        self.__health = self.get_max_health()
-        self.__max_mana = mp
-        self.__mana = self.get_max_mana()
+        self.__health = None
+        self.__mana = None
         self.__attack_power = ap
         self.__shield = 0
         self.__exp = 0
@@ -26,30 +24,46 @@ class Character():
     def initialize_stats(self):
         self.set_defense()
         self.set_resistance()
+        self.set_max_health()
+        self.set_health()
+        self.set_max_mana()
+        self.set_mana()
 
     def get_name(self):
         return self.__name
     
+    def set_max_health(self):
+        self.__max_health = self.get_stats().get_health()
+
     def get_max_health(self):
         return self.__max_health
 
     def get_health(self):
         return self.__health
     
-    def set_health(self, value:float):
-        self.__health = value
+    def set_health(self, value:float=0):
+        if not self.__health == None:
+            self.__health = value
+            return
+        self.__health = self.get_max_health()
 
     def update_health(self, value:float):
         self.__health += value
-    
+
+    def set_max_mana(self):
+        self.__max_mana = self.get_stats().get_mana()
+
     def get_max_mana(self):
         return self.__max_mana
 
     def get_mana(self):
         return self.__mana
     
-    def set_mana(self, value:float):
-        self.__mana = value
+    def set_mana(self, value:float=0):
+        if not self.__mana== None:
+            self.__mana = value
+            return
+        self.__mana = self.get_max_mana()
 
     def update_mana(self, value:float):
         self.__mana += value

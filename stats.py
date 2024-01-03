@@ -181,10 +181,16 @@ class Stats:
             self.get_CON().get_ammount()
         )
 
+    def get_health(self):
+        return self.__health
+
     def set_mana(self):
         self.__mana = StatsCalculator.calculate_mp(
             self.get_WIS().get_ammount()
         )
+
+    def get_mana(self):
+        return self.__mana
 
     def set_stamina(self):
         self.__stamina = StatsCalculator.calculate_sp(

@@ -3,11 +3,11 @@ from weapon import Bloodvalor, Zephyr
 from hero import Character, Wizard, Knight
 from stats import Stats, STR, DEX, CON, INT, WIS
 
-claire = Character("Claire li Britania", 580, 180, 25, Wizard("wind"))
-aldric = Character("Sir Aldric of The Ironheart", 940, 100, 15, Knight("blood"))
+claire = Character("Claire li Britania", 25, Wizard("wind"))
+aldric = Character("Sir Aldric of The Ironheart", 15, Knight("blood"))
 
 claire_stats = Stats(STR(2), DEX(5), CON(7), INT(13), WIS(9))
-aldric_stats = Stats(STR(11), DEX(6), CON(10), INT(1), WIS(8))
+aldric_stats = Stats(STR(11), DEX(6), CON(11), INT(1), WIS(7))
 
 aldric.set_weapon(Bloodvalor())
 claire.set_weapon(Zephyr())
