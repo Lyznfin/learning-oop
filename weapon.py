@@ -15,7 +15,7 @@ class Weapon_Types(Enum):
 
 valid_weapon_types = {item.value for item in Weapon_Types}
 
-class Weapon():
+class Weapon:
     def __init__(self, name:str, type:str, power:float, ability:classmethod) -> None:
         assert type in valid_weapon_types, "Invalid Weapon Type"
         assert isinstance(name, str) and name.strip(), "Name cannot be empty or None"

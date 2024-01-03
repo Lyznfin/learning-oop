@@ -1,18 +1,21 @@
 from skill import Bloodbound, Tempest
-from weapon import Bloodvalor, Zephyr 
+from weapon import Bloodvalor, Zephyr
 from hero import Character, Wizard, Knight
+from stats import Stats, STR, DEX, CON, INT, WIS
 
-Claire = Character("Claire li Britania", 580, 180, 15, 25, 25, Wizard("wind"))
-Aldric = Character("Sir Aldric of The Ironheart", 940, 100, 35, 20, 15, Knight("blood"))
+claire = Character("Claire li Britania", 580, 180, 15, 25, 25, Wizard("wind"))
+aldric = Character("Sir Aldric of The Ironheart", 940, 100, 35, 20, 15, Knight("blood"))
 
-Aldric.setWeapon(Bloodvalor())
-Claire.setWeapon(Zephyr())
+claire_stats = Stats(STR(2), DEX(5), CON(7), INT(13), WIS(9))
 
-Aldric.setSkill(Bloodbound())
-Claire.setSkill(Tempest())
+aldric.setWeapon(Bloodvalor())
+claire.setWeapon(Zephyr())
 
-Aldric.useWeaponAbility(Aldric, Claire)
-Claire.useWeaponAbility(Claire, Aldric)
+aldric.setSkill(Bloodbound())
+claire.setSkill(Tempest())
 
-print(Claire.__dict__)
-print(Aldric.__dict__)
+aldric.useWeaponAbility(aldric, claire)
+claire.useWeaponAbility(claire, aldric)
+
+print(claire.__dict__)
+print(aldric.__dict__)

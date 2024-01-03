@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from enum import Enum
+from weapon import Weapon_Types
 
 #might be ridiculous, but belive me, this spageth classes is intentional
 #well, as one might say, its for the purpose of research (i actually have no idea why im doing this)
@@ -124,19 +125,15 @@ class StatsCalculator:
 
     @staticmethod
     def calculate_defense(str_value:int, con_value:int):
-        return round(Base_Stats.DEF.value + (Base_Stats.DEF.value * ((0.5 * str_value) + (0.75 * con_value))) * 0.2)
+        return round(Base_Stats.DEF.value + (Base_Stats.DEF.value * ((0.25 * str_value) + (0.35 * con_value))) * 0.2)
     
     @staticmethod
     def calculate_resistance(int_value:int, wis_value:int):
-        return round(Base_Stats.RES.value + (Base_Stats.RES.value * ((0.5 * int_value) + (0.75 * wis_value))) * 0.2)
+        return round(Base_Stats.RES.value + (Base_Stats.RES.value * ((0.25 * int_value) + (0.35 * wis_value))) * 0.2)
 
-class Stats():
+class Stats:
     def __init__(self, str:int, dex:int, con:int, int:int, wis:int) -> None:
-        assert str.get_ammount() >= 0, f"stat can not be below zero!"
-        assert dex.get_ammount() >= 0, f"stat can not be below zero!"
-        assert con.get_ammount() >= 0, f"stat can not be below zero!"
-        assert int.get_ammount() >= 0, f"stat can not be below zero!"
-        assert wis.get_ammount() >= 0, f"stat can not be below zero!"
+        self.check_input(str, dex, con, int, wis)
 
         self.__STR = str
         self.__DEX = dex
@@ -144,6 +141,17 @@ class Stats():
         self.__INT = int
         self.__WIS = wis
 
+        self.initialize_stats()
+
+    @staticmethod
+    def check_input(str, dex, con, int, wis):
+        assert str.get_ammount() >= 0, f"input stat can not be below zero!"
+        assert dex.get_ammount() >= 0, f"input stat can not be below zero!"
+        assert con.get_ammount() >= 0, f"input stat can not be below zero!"
+        assert int.get_ammount() >= 0, f"input stat can not be below zero!"
+        assert wis.get_ammount() >= 0, f"input stat can not be below zero!"        
+
+    def initialize_stats(self):
         self.set_health()
         self.set_mana()
         self.set_stamina()
@@ -209,7 +217,27 @@ class Stats():
         )
 
     def set_weapon_attack(self):
-        pass
+        match Weapon_Types.value:
+            case 'Sword':
+                pass
+            case 'Polearm':
+                pass
+            case 'Bow':
+                pass
+            case 'Wand':
+                pass
+            case 'Axe':
+                pass
+            case 'Firearm':
+                pass
+            case 'Gauntlet':
+                pass
+            case 'Orb':
+                pass
+            case 'Hammer':
+                pass
+            case 'Unique':
+                pass
 
     def print_attribute(self):
         print('STR: {} \nDEX: {} \nCON: {} \nINT: {} \nWIS: {}'.format(
@@ -237,3 +265,5 @@ obj = Stats(STR(3), DEX(6), CON(12), INT(21), WIS(12))
 
 obj.print_attribute()
 obj.print_stats()
+
+obj.set_weapon_attack()

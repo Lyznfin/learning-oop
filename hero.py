@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 
 class Character():
     def __init__(self, name:str, hp:float, mp:float, dp:float, rp:float, ap:float, role:classmethod) -> None:
         self.__name = name
         self.__max_health = hp
-        self.__health = self.getMaxHealth()
+        self.__health = self.get_max_health()
         self.__max_mana = mp
         self.__mana = self.getMaxMana()
         self.__defense = dp
@@ -20,16 +21,16 @@ class Character():
     def set_stats(self, stats:classmethod):
         pass
 
-    def getName(self):
+    def get_name(self):
         return self.__name
     
-    def getMaxHealth(self):
+    def get_max_health(self):
         return self.__max_health
 
-    def getHealth(self):
+    def get_health(self):
         return self.__health
     
-    def setHealth(self, value:float):
+    def set_health(self, value:float):
         self.__health += value
     
     def getMana(self):
@@ -100,21 +101,21 @@ class Character():
 
     def attack(self, target:classmethod):
         if not self.getStatus():
-            print("{} is dead, cannot attack".format(self.getName()))
+            print("{} is dead, cannot attack".format(self.get_name()))
             return
         if not target.getStatus():
             print("{} is dead, cannot be attacked".format(target.getName()))
             return
         elif self.getRole().getManaCost() > self.getMana():
             print(self.infoMp)
-            print("{} mana is less than {}, cannot cast a basic spell".format(self.getName(), self.getRole().getManaCost()))
+            print("{} mana is less than {}, cannot cast a basic spell".format(self.get_name(), self.getRole().getManaCost()))
             return
         else:
             return self.getRole().attack(self, target)
         
     def useSkill(self, target:classmethod):
         if not self.getStatus():
-            print("{} is dead, cannot attack".format(self.getName()))
+            print("{} is dead, cannot attack".format(self.get_name()))
             return
         elif not target.getStatus():
             print("{} is dead, cannot be attacked".format(target.getName()))
@@ -122,7 +123,7 @@ class Character():
         if self.getSkill().get_skill_cost() > self.getMana():
             print(self.infoMp)
             print("{} doesnt have enough mana to use skill: {}".format(
-                self.getName(),
+                self.get_name(),
                 self.getSkill().getName()
             ))
             return
@@ -131,7 +132,7 @@ class Character():
         
     def useAbility(self, target:classmethod):
         if not self.getStatus():
-            print("{} is dead, cannot use ability".format(self.getName()))
+            print("{} is dead, cannot use ability".format(self.get_name()))
             return
         elif not target.getStatus():
             print("{} is dead, cannot be attacked".format(target.getName()))
@@ -144,30 +145,30 @@ class Character():
 
     def reduceDamage(self, damage:int):
         if damage <= self.getShield() and self.getShield() != 0:
-            print('{} points damage has completely been absorbed'.format(damage, self.getName()))
+            print('{} points damage has completely been absorbed'.format(damage, self.get_name()))
             self.addShield(-damage)
             damage = 0
-            print('{} has {} points of shield left'.format(self.getName(), self.getShield()))
+            print('{} has {} points of shield left'.format(self.get_name(), self.getShield()))
         elif damage > self.getShield() and self.getShield() != 0:
             absorbed = damage
             damage -= self.getShield() 
             absorbed -= damage
             print('{} points of damage has been absorbed'.format(absorbed))
-            print('{} shields is now completely gone'.format(self.getName()))
+            print('{} shields is now completely gone'.format(self.get_name()))
             self.setShield(0)
         return damage
 
     def attacked(self, attacker:classmethod, damage:classmethod):
         if self.getShield() > 0:
             damage = self.reduceDamage(damage)
-        self.setHealth(-round(damage))
+        self.set_health(-round(damage))
         if damage <= 0:
-            print('No ammount of damage is dealt to {}'.format(self.getName()))
+            print('No ammount of damage is dealt to {}'.format(self.get_name()))
             damage = 0
             return
         else:
-            print("{} health has decreased by {} points".format(self.getName(), damage))
-            if self.getHealth() <= 0:
+            print("{} health has decreased by {} points".format(self.get_name(), damage))
+            if self.get_health() <= 0:
                 self.heroDied()
                 expGain = (self.getExp() / 2) + 50
                 attacker.setExp(expGain)
@@ -183,7 +184,7 @@ class Character():
     def levelUp(self):
         if self.getLevel() % 5 == 0:
             print("{} has reached level {}, you can choose a skill based on you role of {} {}!".format(
-                self.getName(),
+                self.get_name(),
                 self.getLevel(),
                 self.getRole().getType(),
                 self.getRole().getRole()
@@ -198,13 +199,13 @@ class Character():
             self.setResistance(self.getRole().getResistanceGrowth() * self.getLevel())
             self.__level += 1
             self.restoreStat()
-            print("{} has leveled up".format(self.getName()))
+            print("{} has leveled up".format(self.get_name()))
             self.setExpTreshold()
             self.levelUp()
         return
 
     def restoreStat(self):
-        self.__health = self.getMaxHealth()
+        self.__health = self.get_max_health()
         self.__mana = self.getMaxMana()
 
     def heroDied(self):
@@ -212,7 +213,7 @@ class Character():
         self.__mana = 0
         self.__isAlive = False
         self.__exp /= 2
-        print("{} has died".format(self.getName()))
+        print("{} has died".format(self.get_name()))
 
     def respawn(self):
         self.restoreStat()
@@ -222,11 +223,11 @@ class Character():
         health_regen = self.getRole().getHealthRegen() * self.getLevel()
         mana_regen = self.getRole().getManaRegen() * self.getLevel()
 
-        if health_regen + self.getHealth() >= self.getMaxHealth():
-            health_regen = self.getMaxHealth() - self.getHealth()
-            self.setHealth(health_regen)
+        if health_regen + self.get_health() >= self.get_max_health():
+            health_regen = self.get_max_health() - self.get_health()
+            self.set_health(health_regen)
         else:
-            self.setHealth(health_regen)
+            self.set_health(health_regen)
         
         if mana_regen + self.getMana() >= self.getMaxMana():
             mana_regen = self.getMaxMana() - self.getMana()
@@ -238,32 +239,32 @@ class Character():
     def infoHp(self):
         if self.getStatus():
             return "{} has {}/{} health left".format(
-                self.getName(), 
-                self.getHealth(), 
-                self.getMaxHealth(), 
+                self.get_name(), 
+                self.get_health(), 
+                self.get_max_health(), 
                 )
         else:
             return "{} is dead".format(
-                self.getName()
+                self.get_name()
             )
     
     @property
     def infoMp(self):
         if self.getMana() > 0:
             return "{} has {}/{} mana left".format(
-                self.getName(), 
+                self.get_name(), 
                 self.getMana(), 
                 self.getMaxMana()
                 )
         else:
             return "{} has no mana left".format(
-                self.getName()
+                self.get_name()
             )
     
     @property
     def infoExp(self):
         return "{} needs {}/{} exp to level up".format(
-            self.getName(), 
+            self.get_name(), 
             self.getExp(),
             self.getExp() * (self.getLevel() * 2)
             )
@@ -272,6 +273,24 @@ class Role(ABC):
     @abstractmethod
     def attack(self, hero:Character, target:Character):
         pass
+
+class Element(Enum):
+    EA1 = 'Fire'
+    EA2 = 'Water'
+    EA3 = 'Earth'
+    EA4 = 'Air'
+    EA5 = 'Lightning'
+    EA6 = 'Ice'
+    EA7 = 'Light'
+    EA8 = 'Dark'
+    EA9 = 'Blood'
+    EA10 = 'Metal'
+    EA11 = 'Mystic'
+    EA12 = 'Sound'
+    EA13 = 'Time'
+    EA14 = 'Gravity'
+    EA15 = 'Chaos'
+    EA16 = 'Space'
 
 class Wizard(Role):
     def __init__(self, element) -> None:
@@ -328,11 +347,11 @@ class Wizard(Role):
             damage = 0
             return
         print("{} casted a {} magic and deals {} points of {} damage to {}".format(
-            hero.getName(),
+            hero.get_name(),
             self.getType(),
             damage,
             self.getAttackType(),
-            target.getName()
+            target.get_name()
             ))
         print("This spell consume {} mana".format(self.getManaCost()))
         print(hero.infoMp)
@@ -394,16 +413,16 @@ class Knight(Role):
         damage = hero.getWeapon().getWeaponPower() * 0.5 + (hero.getAttackPower() - target.getDefense() * target.getLevel()) * damage_multiplier
         damage += self.getHealthCost() * damage_multiplier
         hero.setMana(-self.getManaCost())
-        hero.setHealth(-self.getHealthCost())
+        hero.set_health(-self.getHealthCost())
         if damage <= 0:
             damage = 0
             return
         print("{} swing his weapon with {} aura and deals {} points of {} damage to {}".format(
-            hero.getName(),
+            hero.get_name(),
             self.getType(),
             damage,
             self.getAttackType(),
-            target.getName()
+            target.get_name()
             ))
         print("This attack consume {} mana and {} health".format(self.getManaCost(), self.getHealthCost()))
         print(hero.infoMp)
