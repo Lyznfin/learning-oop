@@ -8,83 +8,146 @@ class Base_Stats(Enum):
     HP = 400
     MP = 150
     SP = 120
+    CRIT = 0.05
+    CRITDMG = 0.5
+    ASPD = 1
     DEF = 15
     RES = 10
-    CRIT = 0.15
+
+class Current_Stats(Enum):
+    HP = int
+    MP = 150
+    SP = 120
+    CRIT = 0.05
+    CRITDMG = 0.5
     ASPD = 1
+    DEF = 15
+    RES = 10
 
 class Attribute(ABC):
-    @classmethod
     @abstractmethod
-    def get_ammount(cls) -> int:
+    def get_ammount(self) -> int:
         pass
 
     @abstractmethod
-    def get_attribute(self) -> float:
+    def set_ammount(self, val) -> int:
+        pass
+
+    @abstractmethod
+    def update_ammount(self, val) -> int:
         pass
 
 class STR(Attribute):
-    __ammount = 5
-    def __init__(self, val) -> None:
-        STR.__ammount += val
+    def __init__(self, val:int=0) -> None:
+        self.__ammount = 5
+        self.update_ammount(val)
 
-    @classmethod
-    def get_ammount(cls) -> int:
-        return cls.__ammount
+    def get_ammount(self) -> int:
+        return self.__ammount
+
+    def set_ammount(self, val) -> int:
+        self.__ammount = val
     
-    def get_attribute(self) -> float:
-        pass
+    def update_ammount(self, val) -> int:
+        self.__ammount += val
 
 class DEX(Attribute):
-    __ammount = 5
-    def __init__(self, val) -> None:
-        DEX.__ammount += val
+    def __init__(self, val:int=0) -> None:
+        self.__ammount = 5
+        self.update_ammount(val)
 
-    @classmethod
-    def get_ammount(cls):
-        return cls.__ammount
+    def get_ammount(self) -> int:
+        return self.__ammount
+
+    def set_ammount(self, val) -> int:
+        self.__ammount = val
     
-    def get_attribute(self) -> float:
-        pass
+    def update_ammount(self, val) -> int:
+        self.__ammount += val
     
 class CON(Attribute):
-    __ammount = 5
-    def __init__(self, val) -> None:
-        CON.__ammount += val
+    def __init__(self, val:int=0) -> None:
+        self.__ammount = 5
+        self.update_ammount(val)
 
-    @classmethod
-    def get_ammount(cls):
-        return cls.__ammount
+    def get_ammount(self) -> int:
+        return self.__ammount
+
+    def set_ammount(self, val) -> int:
+        self.__ammount = val
     
-    def get_attribute(self) -> float:
-        pass
+    def update_ammount(self, val) -> int:
+        self.__ammount += val
     
 class INT(Attribute):
-    __ammount = 5
-    def __init__(self, val) -> None:
-        INT.__ammount += val
+    def __init__(self, val:int=0) -> None:
+        self.__ammount = 5
+        self.update_ammount(val)
 
-    @classmethod
-    def get_ammount(cls):
-        return cls.__ammount
+    def get_ammount(self) -> int:
+        return self.__ammount
+
+    def set_ammount(self, val) -> int:
+        self.__ammount = val
     
-    def get_attribute(self) -> float:
-        pass
+    def update_ammount(self, val) -> int:
+        self.__ammount += val
     
 class WIS(Attribute):
-    __ammount = 5
-    def __init__(self, val) -> None:
-        WIS.__ammount += val
+    def __init__(self, val:int=0) -> None:
+        self.__ammount = 5
+        self.update_ammount(val)
 
-    @classmethod
-    def get_ammount(cls):
-        return cls.__ammount
+    def get_ammount(self) -> int:
+        return self.__ammount
+
+    def set_ammount(self, val) -> int:
+        self.__ammount = val
     
-    def get_attribute(self) -> float:
-        pass
+    def update_ammount(self, val) -> int:
+        self.__ammount += val
+
+class StatsCalculator:
+    @staticmethod
+    def calculate_hp(con_value:int):
+        return Base_Stats.HP.value + (Base_Stats.HP.value * (0.35 * con_value)) * 0.25
+    
+    @staticmethod
+    def calculate_mp(wis_value:int):
+        return Base_Stats.MP.value + (Base_Stats.MP.value * (0.20 * wis_value)) * 0.25
+    
+    @staticmethod
+    def calculate_sp(con_value:int):
+        return Base_Stats.SP.value + (Base_Stats.SP.value * (0.20 * con_value)) * 0.2
+    
+    @staticmethod
+    def calculate_crit(con_value:int):
+        return Base_Stats.CRIT.value + (Base_Stats.CRIT.value * (0.25 * con_value)) * 0.2
+    
+    @staticmethod
+    def calculate_critdmg(con_value:int):
+        return Base_Stats.CRITDMG.value + (Base_Stats.CRITDMG.value * (0.25 * con_value)) * 0.2
+    
+    @staticmethod
+    def calculate_aspd(con_value:int):
+        return Base_Stats.ASPD.value + (Base_Stats.ASPD.value * (0.25 * con_value)) * 0.2
+
+    @staticmethod
+    def calculate_defense(str_value:int, con_value:int):
+        return Base_Stats.DEF.value + (Base_Stats.DEF.value * ((0.5 * str_value) + (0.75 * con_value))) * 0.2
+    
+    @staticmethod
+    def calculate_resistance(int_value:int, wis_value:int):
+        return Base_Stats.RES.value + (Base_Stats.RES.value * ((0.5 * int_value) + (0.75 * wis_value))) * 0.2
 
 class Stats():
-    def __init__(self, str, dex, con, int, wis) -> None:
+    def __init__(self, str:int, dex:int, con:int, int:int, wis:int) -> None:
+        assert str >= 0, f"stat can not be below zero!"
+        assert dex >= 0, f"stat can not be below zero!"
+        assert con >= 0, f"stat can not be below zero!"
+        assert int >= 0, f"stat can not be below zero!"
+        assert wis >= 0, f"stat can not be below zero!"
+
         self.__STR = str
         self.__DEX = dex
         self.__CON = con
@@ -107,25 +170,29 @@ class Stats():
         return self.__WIS
 
     def set_health(self):
-        pass
+        return StatsCalculator.calculate_defense(
+            self.get_CON().get_ammount()
+        )
 
     def set_mana(self):
-        pass
+        Base_Stats.MP.value
 
     def set_stamina(self):
-        pass
+        Base_Stats.SP.value
 
     def set_crit(self):
-        pass
+        Base_Stats.CRIT.value
 
     def set_attack_speed(self):
-        pass
+        Base_Stats.ASPD.value
 
     def set_defense(self):
-        pass
+        return StatsCalculator.calculate_defense(
+            self.get_STR().get_ammount(), self.get_CON().get_ammount()
+        )
     
     def set_resistance(self):
-        pass
+        Base_Stats.RES.value
 
     def set_weapon_attack(self):
         pass
