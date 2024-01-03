@@ -121,12 +121,12 @@ class Character():
         if not self.get_status():
             print("{} is dead, cannot attack".format(self.get_name()))
             return
-        if not target.getStatus():
-            print("{} is dead, cannot be attacked".format(target.getName()))
+        if not target.get_status():
+            print("{} is dead, cannot be attacked".format(target.get_name()))
             return
-        elif self.get_role().getManaCost() > self.get_mana():
+        elif self.get_role().get_mana_cost() > self.get_mana():
             print(self.infoMp)
-            print("{} mana is less than {}, cannot cast a basic spell".format(self.get_name(), self.get_role().getManaCost()))
+            print("{} mana is less than {}, cannot cast a basic spell".format(self.get_name(), self.get_role().get_mana_cost()))
             return
         else:
             return self.get_role().attack(self, target)
@@ -186,7 +186,7 @@ class Character():
             if self.get_health() <= 0:
                 self.hero_died()
                 expGain = (self.get_exp() / 2) + 50
-                attacker.setExp(expGain)
+                attacker.set_exp(expGain)
                 return
             else:
                 print(self.infoHp)
@@ -321,54 +321,54 @@ class Wizard(Role):
         self.__health_regen = 2
         self.__mana_regen = 3
 
-    def getRole(self):
+    def get_role(self):
         return self.__role
     
-    def getType(self):
+    def get_type(self):
         return self.__element
 
-    def getAttackType(self):
+    def get_attack_type(self):
         return self.__attack_type
     
-    def getAttackGrowth(self):
+    def get_attack_growth(self):
         return self.__attack_growth
     
-    def getHealthGrowth(self):
+    def get_health_growth(self):
         return self.__health_growth
     
-    def getManaGrowth(self):
+    def get_mana_growth(self):
         return self.__mana_growth
     
-    def getDefenseGrowth(self):
+    def get_defense_growth(self):
         return self.__defense_growth
     
-    def getResistanceGrowth(self):
+    def get_resistance_growth(self):
         return self.__resistance_growth
     
-    def getManaCost(self):
+    def get_mana_cost(self):
         return self.__mana_cost
     
-    def getHealthRegen(self):
+    def get_health_regen(self):
         return self.__health_regen
     
-    def getManaRegen(self):
+    def get_mana_regen(self):
         return self.__mana_regen
 
     def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.get_level() / target.get_level()
         damage = hero.get_weapon().getWeaponPower() * 0.5 + (hero.get_attack_power() - target.get_resistance() * target.get_level()) * damage_multiplier
-        hero.update_mana(-self.getManaCost())
+        hero.update_mana(-self.get_mana_cost())
         if damage <= 0:
             damage = 0
             return
         print("{} casted a {} magic and deals {} points of {} damage to {}".format(
             hero.get_name(),
-            self.getType(),
+            self.get_type(),
             damage,
-            self.getAttackType(),
+            self.get_attack_type(),
             target.get_name()
             ))
-        print("This spell consume {} mana".format(self.getManaCost()))
+        print("This spell consume {} mana".format(self.get_mana_cost()))
         print(hero.infoMp)
         target.attacked(hero, damage)
 
@@ -387,59 +387,59 @@ class Knight(Role):
         self.__health_regen = 3
         self.__mana_regen = 1
 
-    def getRole(self):
+    def get_role(self):
         return self.__role
 
-    def getType(self):
+    def get_type(self):
         return self.__aura
 
-    def getAttackType(self):
+    def get_attack_type(self):
         return self.__attack_type
     
-    def getAttackGrowth(self):
+    def get_attack_growth(self):
         return self.__attack_growth
     
-    def getHealthGrowth(self):
+    def get_health_growth(self):
         return self.__health_growth
     
-    def getManaGrowth(self):
+    def get_mana_growth(self):
         return self.__mana_growth
     
-    def getDefenseGrowth(self):
+    def get_defense_growth(self):
         return self.__defense_growth
     
-    def getResistanceGrowth(self):
+    def get_resistance_growth(self):
         return self.__resistance_growth
     
-    def getManaCost(self):
+    def get_mana_cost(self):
         return self.__mana_cost
     
-    def getHealthCost(self):
+    def get_health_cost(self):
         return self.__health_cost
     
-    def getHealthRegen(self):
+    def get_health_regen(self):
         return self.__health_regen
     
-    def getManaRegen(self):
+    def get_mana_regen(self):
         return self.__mana_regen
     
     def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.get_level() / target.get_level()
         damage = hero.get_weapon().getWeaponPower() * 0.5 + (hero.get_attack_power() - target.get_defense() * target.get_level()) * damage_multiplier
-        damage += self.getHealthCost() * damage_multiplier
-        hero.update_mana(-self.getManaCost())
-        hero.update_health(-self.getHealthCost())
+        damage += self.get_health_cost() * damage_multiplier
+        hero.update_mana(-self.get_mana_cost())
+        hero.update_health(-self.get_health_cost())
         if damage <= 0:
             damage = 0
             return
         print("{} swing his weapon with {} aura and deals {} points of {} damage to {}".format(
             hero.get_name(),
-            self.getType(),
+            self.get_type(),
             damage,
-            self.getAttackType(),
+            self.get_attack_type(),
             target.get_name()
             ))
-        print("This attack consume {} mana and {} health".format(self.getManaCost(), self.getHealthCost()))
+        print("This attack consume {} mana and {} health".format(self.get_mana_cost(), self.get_health_cost()))
         print(hero.infoMp)
         print(hero.infoHp)
         target.attacked(hero, damage)

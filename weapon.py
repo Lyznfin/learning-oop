@@ -82,7 +82,7 @@ class Bloodvalor(Weapon, Skill):
             return
         
         if self.get_skill_cost() <= hero.get_mana():
-            hero.set_mana(-self.get_skill_cost())
+            hero.update_mana(-self.get_skill_cost())
             hero.add_shield(self.get_ability_shield())
             print("{} casted Ironheart Resilience, create {} points of shield".format(
                 hero.get_name(),
@@ -128,7 +128,7 @@ class Zephyr(Weapon, Skill):
             return
     
         if self.get_skill_cost() <= hero.get_mana():
-            hero.set_mana(-self.get_skill_cost())
+            hero.update_mana(-self.get_skill_cost())
             hero.set_attack_power(self.get_attack_buff())
             print("{} casted Galeweave, increased {} points of attack".format(
                 hero.get_name(),
