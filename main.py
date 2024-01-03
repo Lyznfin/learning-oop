@@ -7,15 +7,19 @@ claire = Character("Claire li Britania", 580, 180, 15, 25, 25, Wizard("wind"))
 aldric = Character("Sir Aldric of The Ironheart", 940, 100, 35, 20, 15, Knight("blood"))
 
 claire_stats = Stats(STR(2), DEX(5), CON(7), INT(13), WIS(9))
+aldric_stats = Stats(STR(11), DEX(6), CON(10), INT(1), WIS(8))
 
-aldric.setWeapon(Bloodvalor())
-claire.setWeapon(Zephyr())
+aldric.set_weapon(Bloodvalor())
+claire.set_weapon(Zephyr())
 
-aldric.setSkill(Bloodbound())
-claire.setSkill(Tempest())
+aldric.set_stats(aldric_stats)
+claire.set_stats(claire_stats)
 
-aldric.useWeaponAbility(aldric, claire)
-claire.useWeaponAbility(claire, aldric)
+aldric.set_skill(Bloodbound())
+claire.set_skill(Tempest())
+
+aldric.use_ability(claire)
+claire.use_ability(aldric)
 
 print(claire.__dict__)
 print(aldric.__dict__)

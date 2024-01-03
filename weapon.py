@@ -76,28 +76,28 @@ class Bloodvalor(Weapon, Skill):
         return shield
     
     def use_ability(self, hero:classmethod, target:classmethod):
-        damage = self.get_ability_damage() - target.getDefense() * target.getLevel()
+        damage = self.get_ability_damage() - target.get_defense() * target.get_level()
         if damage <= 0:
             damage = 0
             return
         
-        if self.get_skill_cost() <= hero.getMana():
-            hero.setMana(-self.get_skill_cost())
-            hero.addShield(self.get_ability_shield())
+        if self.get_skill_cost() <= hero.get_mana():
+            hero.set_mana(-self.get_skill_cost())
+            hero.add_shield(self.get_ability_shield())
             print("{} casted Ironheart Resilience, create {} points of shield".format(
-                hero.getName(),
+                hero.get_name(),
                 self.get_ability_shield()
             ))
             print("{} exude a heavy, bloodlusted aura, dealing {} damage to {}".format(
-                hero.getName(),
+                hero.get_name(),
                 damage,
-                target.getName()
+                target.get_name()
             ))
             target.attacked(hero, damage)
         else:
             print(hero.infoMp)
             print("{} mana is less than {}, cannot use {} ability".format(
-                hero.getName(), 
+                hero.get_name(), 
                 self.get_weapon_ability().getSkillCost(),
                 self.get_weapon_name()))
             return
@@ -122,28 +122,28 @@ class Zephyr(Weapon, Skill):
         return buff
 
     def use_ability(self, hero:classmethod, target:classmethod):
-        damage = self.get_ability_damage() - target.getResistance() * target.getLevel()
+        damage = self.get_ability_damage() - target.get_resistance() * target.get_level()
         if damage <= 0:
             damage = 0
             return
     
-        if self.get_skill_cost() <= hero.getMana():
-            hero.setMana(-self.get_skill_cost())
-            hero.setAttackPower(self.get_attack_buff())
+        if self.get_skill_cost() <= hero.get_mana():
+            hero.set_mana(-self.get_skill_cost())
+            hero.set_attack_power(self.get_attack_buff())
             print("{} casted Galeweave, increased {} points of attack".format(
-                hero.getName(),
+                hero.get_name(),
                 self.get_attack_buff()
             ))
             print("By the grace of the wind, {} summons a wind vortex, dealing {} damage tp {}".format(
-                hero.getName(),
+                hero.get_name(),
                 damage,
-                target.getName()
+                target.get_name()
             ))
             target.attacked(hero, damage)
         else:
             print(hero.infoMp)
             print("{} mana is less than {}, cannot use {} ability".format(
-                hero.getName(), 
+                hero.get_name(), 
                 self.get_weapon_ability().getSkillCost(),
                 self.get_weapon_name()))
             return

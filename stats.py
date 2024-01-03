@@ -113,7 +113,7 @@ class StatsCalculator:
     
     @staticmethod
     def calculate_crit(dex_value:int):
-        return round(Base_Stats.CRIT.value + (0.025 * dex_value) * 0.05, 3)
+        return round(Base_Stats.CRIT.value + (0.05 * dex_value) * 0.05, 3)
     
     @staticmethod
     def calculate_critdmg(dex_value:int):
@@ -125,14 +125,14 @@ class StatsCalculator:
 
     @staticmethod
     def calculate_defense(str_value:int, con_value:int):
-        return round(Base_Stats.DEF.value + (Base_Stats.DEF.value * ((0.25 * str_value) + (0.35 * con_value))) * 0.2)
+        return round(Base_Stats.DEF.value + ((0.75 * str_value) + (1.5 * con_value)) * 0.7)
     
     @staticmethod
     def calculate_resistance(int_value:int, wis_value:int):
-        return round(Base_Stats.RES.value + (Base_Stats.RES.value * ((0.25 * int_value) + (0.35 * wis_value))) * 0.2)
+        return round(Base_Stats.RES.value + ((0.75 * int_value) + (1.5 * wis_value)) * 0.7)
 
 class Stats:
-    def __init__(self, str:int, dex:int, con:int, int:int, wis:int) -> None:
+    def __init__(self, str:classmethod, dex:classmethod, con:classmethod, int:classmethod, wis:classmethod) -> None:
         self.check_input(str, dex, con, int, wis)
 
         self.__STR = str
@@ -145,11 +145,11 @@ class Stats:
 
     @staticmethod
     def check_input(str, dex, con, int, wis):
-        assert str.get_ammount() >= 0, f"input stat can not be below zero!"
-        assert dex.get_ammount() >= 0, f"input stat can not be below zero!"
-        assert con.get_ammount() >= 0, f"input stat can not be below zero!"
-        assert int.get_ammount() >= 0, f"input stat can not be below zero!"
-        assert wis.get_ammount() >= 0, f"input stat can not be below zero!"        
+        assert str.get_ammount() >= 5, f"input stat can not be below zero!"
+        assert dex.get_ammount() >= 5, f"input stat can not be below zero!"
+        assert con.get_ammount() >= 5, f"input stat can not be below zero!"
+        assert int.get_ammount() >= 5, f"input stat can not be below zero!"
+        assert wis.get_ammount() >= 5, f"input stat can not be below zero!"        
 
     def initialize_stats(self):
         self.set_health()
@@ -216,6 +216,7 @@ class Stats:
             self.get_INT().get_ammount(), self.get_WIS().get_ammount()
         )
 
+    '''
     def set_weapon_attack(self):
         match Weapon_Types.value:
             case 'Sword':
@@ -237,7 +238,7 @@ class Stats:
             case 'Hammer':
                 pass
             case 'Unique':
-                pass
+                pass '''
 
     def print_attribute(self):
         print('STR: {} \nDEX: {} \nCON: {} \nINT: {} \nWIS: {}'.format(
@@ -259,11 +260,8 @@ class Stats:
             self.__defense,
             self.__resistance
         ))
-    
 
-obj = Stats(STR(3), DEX(6), CON(12), INT(21), WIS(12))
+#obj = Stats(STR(5), DEX(6), CON(12), INT(21), WIS(12))
 
-obj.print_attribute()
-obj.print_stats()
-
-obj.set_weapon_attack()
+#obj.print_attribute()
+#obj.print_stats()

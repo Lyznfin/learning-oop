@@ -7,7 +7,7 @@ class Character():
         self.__max_health = hp
         self.__health = self.get_max_health()
         self.__max_mana = mp
-        self.__mana = self.getMaxMana()
+        self.__mana = self.get_max_mana()
         self.__defense = dp
         self.__resistance = rp
         self.__attack_power = ap
@@ -16,10 +16,13 @@ class Character():
         self.__level = 1
         self.__isAlive = True
         self.__role = role
-        self.__exp_treshold = self.getLevel() * 2 * 50
+        self.__exp_treshold = self.get_level() * 2 * 50
 
     def set_stats(self, stats:classmethod):
-        pass
+        self.__stats = stats
+
+    def get_stats(self):
+        return self.__stats
 
     def get_name(self):
         return self.__name
@@ -31,137 +34,140 @@ class Character():
         return self.__health
     
     def set_health(self, value:float):
+        self.__health = value
+
+    def update_health(self, value:float):
         self.__health += value
     
-    def getMana(self):
+    def get_max_mana(self):
+        return self.__max_mana
+
+    def get_mana(self):
         return self.__mana
     
-    def setMana(self, value:float):
+    def set_mana(self, value:float):
+        self.__mana = value
+
+    def update_mana(self, value:float):
         self.__mana += value
     
-    def getMaxMana(self):
-        return self.__max_mana
-    
-    def getDefense(self):
+    def get_defense(self):
         return self.__defense
     
-    def setDefense(self, value:float):
+    def set_defense(self, value:float):
         self.__defense += value
     
-    def getResistance(self):
+    def get_resistance(self):
         return self.__resistance
     
-    def setResistance(self, value:float):
+    def set_resistance(self, value:float):
         self.__resistance += value
 
-    def getAttackPower(self):
+    def get_attack_power(self):
         return self.__attack_power
     
-    def setAttackPower(self, value:float):
+    def set_attack_power(self, value:float):
         self.__attack_power += value
     
-    def getStatus(self):
+    def get_status(self):
         return self.__isAlive
     
-    def getExp(self):
+    def get_exp(self):
         return self.__exp
     
-    def getExpTreshold(self):
+    def get_exp_treshold(self):
         return self.__exp_treshold
     
-    def setExpTreshold(self):
-        self.__exp_treshold = self.getLevel() * 2 * 50
+    def set_exp_treshold(self):
+        self.__exp_treshold = self.get_level() * 2 * 50
     
-    def getLevel(self):
+    def get_level(self):
         return self.__level
     
-    def getRole(self):
+    def get_role(self):
         return self.__role
     
-    def setWeapon(self, weapon:classmethod):
+    def set_weapon(self, weapon:classmethod):
         self.__weapon = weapon
 
-    def getWeapon(self):
+    def get_weapon(self):
         return self.__weapon
 
-    def setSkill(self, skill:classmethod):
+    def set_skill(self, skill:classmethod):
         self.__skill = skill
 
-    def getSkill(self):
+    def get_skill(self):
         return self.__skill
 
-    def getShield(self):
+    def get_shield(self):
         return self.__shield
     
-    def setShield(self, value:float):
+    def set_shield(self, value:float):
         self.__shield = value
 
-    def addShield(self, value:float):
+    def add_shield(self, value:float):
         self.__shield += value
 
     def attack(self, target:classmethod):
-        if not self.getStatus():
+        if not self.get_status():
             print("{} is dead, cannot attack".format(self.get_name()))
             return
         if not target.getStatus():
             print("{} is dead, cannot be attacked".format(target.getName()))
             return
-        elif self.getRole().getManaCost() > self.getMana():
+        elif self.get_role().getManaCost() > self.get_mana():
             print(self.infoMp)
-            print("{} mana is less than {}, cannot cast a basic spell".format(self.get_name(), self.getRole().getManaCost()))
+            print("{} mana is less than {}, cannot cast a basic spell".format(self.get_name(), self.get_role().getManaCost()))
             return
         else:
-            return self.getRole().attack(self, target)
+            return self.get_role().attack(self, target)
         
-    def useSkill(self, target:classmethod):
-        if not self.getStatus():
+    def use_skill(self, target:classmethod):
+        if not self.get_status():
             print("{} is dead, cannot attack".format(self.get_name()))
             return
-        elif not target.getStatus():
-            print("{} is dead, cannot be attacked".format(target.getName()))
+        elif not target.get_status():
+            print("{} is dead, cannot be attacked".format(target.get_name()))
             return
-        if self.getSkill().get_skill_cost() > self.getMana():
+        if self.get_skill().get_skill_cost() > self.get_mana():
             print(self.infoMp)
             print("{} doesnt have enough mana to use skill: {}".format(
                 self.get_name(),
-                self.getSkill().getName()
+                self.get_skill().get_name()
             ))
             return
         else:
-            self.getSkill().use_skill(self, target)
+            self.get_skill().use_skill(self, target)
         
-    def useAbility(self, target:classmethod):
-        if not self.getStatus():
+    def use_ability(self, target:classmethod):
+        if not self.get_status():
             print("{} is dead, cannot use ability".format(self.get_name()))
             return
-        elif not target.getStatus():
-            print("{} is dead, cannot be attacked".format(target.getName()))
+        elif not target.get_status():
+            print("{} is dead, cannot be attacked".format(target.get_name()))
             return
         else:
-            return self.getWeapon().useAbility(self, target)
+            return self.get_weapon().use_ability(self, target)
 
-    def useWeaponAbility(self, attacker:classmethod, target:classmethod):
-        self.getWeapon().use_ability(attacker, target)
-
-    def reduceDamage(self, damage:int):
-        if damage <= self.getShield() and self.getShield() != 0:
+    def reduce_damage(self, damage:int):
+        if damage <= self.get_shield() and self.get_shield() != 0:
             print('{} points damage has completely been absorbed'.format(damage, self.get_name()))
-            self.addShield(-damage)
+            self.add_shield(-damage)
             damage = 0
-            print('{} has {} points of shield left'.format(self.get_name(), self.getShield()))
-        elif damage > self.getShield() and self.getShield() != 0:
+            print('{} has {} points of shield left'.format(self.get_name(), self.get_shield()))
+        elif damage > self.get_shield() and self.get_shield() != 0:
             absorbed = damage
-            damage -= self.getShield() 
+            damage -= self.get_shield() 
             absorbed -= damage
             print('{} points of damage has been absorbed'.format(absorbed))
             print('{} shields is now completely gone'.format(self.get_name()))
-            self.setShield(0)
+            self.set_shield(0)
         return damage
 
     def attacked(self, attacker:classmethod, damage:classmethod):
-        if self.getShield() > 0:
-            damage = self.reduceDamage(damage)
-        self.set_health(-round(damage))
+        if self.get_shield() > 0:
+            damage = self.reduce_damage(damage)
+        self.update_health(-round(damage))
         if damage <= 0:
             print('No ammount of damage is dealt to {}'.format(self.get_name()))
             damage = 0
@@ -169,46 +175,46 @@ class Character():
         else:
             print("{} health has decreased by {} points".format(self.get_name(), damage))
             if self.get_health() <= 0:
-                self.heroDied()
-                expGain = (self.getExp() / 2) + 50
+                self.hero_died()
+                expGain = (self.get_exp() / 2) + 50
                 attacker.setExp(expGain)
                 return
             else:
                 print(self.infoHp)
 
-    def setExp(self, exp:float):
+    def set_exp(self, exp:float):
         self.__exp += exp
-        if self.getExp() >= self.getExpTreshold():
-            self.levelUp()
+        if self.get_exp() >= self.get_exp_treshold():
+            self.level_up()
 
-    def levelUp(self):
-        if self.getLevel() % 5 == 0:
+    def level_up(self):
+        if self.get_level() % 5 == 0:
             print("{} has reached level {}, you can choose a skill based on you role of {} {}!".format(
                 self.get_name(),
-                self.getLevel(),
-                self.getRole().getType(),
-                self.getRole().getRole()
+                self.get_level(),
+                self.get_role().getType(),
+                self.get_role().getRole()
             ))
             return
         else:
-            self.setExp(-self.getExpTreshold())
-            self.__attack_power += self.getRole().getAttackGrowth() * self.getLevel()
-            self.__max_health += self.getRole().getHealthGrowth() * self.getLevel()
-            self.__max_mana += self.getRole().getManaGrowth() * self.getLevel()
-            self.setDefense(self.getRole().getDefenseGrowth() * self.getLevel())
-            self.setResistance(self.getRole().getResistanceGrowth() * self.getLevel())
+            self.set_exp(-self.get_exp_treshold())
+            self.__attack_power += self.get_role().getAttackGrowth() * self.get_level()
+            self.__max_health += self.get_role().getHealthGrowth() * self.get_level()
+            self.__max_mana += self.get_role().getManaGrowth() * self.get_level()
+            self.set_defense(self.get_role().getDefenseGrowth() * self.get_level())
+            self.set_resistance(self.get_role().getResistanceGrowth() * self.get_level())
             self.__level += 1
-            self.restoreStat()
+            self.restore_stat()
             print("{} has leveled up".format(self.get_name()))
-            self.setExpTreshold()
-            self.levelUp()
+            self.set_exp_treshold()
+            self.level_up()
         return
 
-    def restoreStat(self):
+    def restore_stat(self):
         self.__health = self.get_max_health()
-        self.__mana = self.getMaxMana()
+        self.__mana = self.get_max_mana()
 
-    def heroDied(self):
+    def hero_died(self):
         self.__health = 0
         self.__mana = 0
         self.__isAlive = False
@@ -216,28 +222,28 @@ class Character():
         print("{} has died".format(self.get_name()))
 
     def respawn(self):
-        self.restoreStat()
+        self.restore_stat()
         self.__isAlive = True
 
     def regen(self):
-        health_regen = self.getRole().getHealthRegen() * self.getLevel()
-        mana_regen = self.getRole().getManaRegen() * self.getLevel()
+        health_regen = self.get_role().getHealthRegen() * self.get_level()
+        mana_regen = self.get_role().getManaRegen() * self.get_level()
 
         if health_regen + self.get_health() >= self.get_max_health():
             health_regen = self.get_max_health() - self.get_health()
-            self.set_health(health_regen)
+            self.update_health(health_regen)
         else:
-            self.set_health(health_regen)
+            self.update_health(health_regen)
         
-        if mana_regen + self.getMana() >= self.getMaxMana():
-            mana_regen = self.getMaxMana() - self.getMana()
-            self.setMana(mana_regen)
+        if mana_regen + self.get_mana() >= self.get_max_mana():
+            mana_regen = self.get_max_mana() - self.get_mana()
+            self.update_mana(mana_regen)
         else:
-            self.setMana(mana_regen)
+            self.update_mana(mana_regen)
 
     @property
     def infoHp(self):
-        if self.getStatus():
+        if self.get_status():
             return "{} has {}/{} health left".format(
                 self.get_name(), 
                 self.get_health(), 
@@ -250,11 +256,11 @@ class Character():
     
     @property
     def infoMp(self):
-        if self.getMana() > 0:
+        if self.get_mana() > 0:
             return "{} has {}/{} mana left".format(
                 self.get_name(), 
-                self.getMana(), 
-                self.getMaxMana()
+                self.get_mana(), 
+                self.get_max_mana()
                 )
         else:
             return "{} has no mana left".format(
@@ -265,8 +271,8 @@ class Character():
     def infoExp(self):
         return "{} needs {}/{} exp to level up".format(
             self.get_name(), 
-            self.getExp(),
-            self.getExp() * (self.getLevel() * 2)
+            self.get_exp(),
+            self.get_exp() * (self.get_level() * 2)
             )
 
 class Role(ABC):
@@ -340,9 +346,9 @@ class Wizard(Role):
         return self.__mana_regen
 
     def attack(self, hero: Character, target: Character):
-        damage_multiplier = 0.5 + hero.getLevel() / target.getLevel()
-        damage = hero.getWeapon().getWeaponPower() * 0.5 + (hero.getAttackPower() - target.getResistance() * target.getLevel()) * damage_multiplier
-        hero.setMana(-self.getManaCost())
+        damage_multiplier = 0.5 + hero.get_level() / target.get_level()
+        damage = hero.get_weapon().getWeaponPower() * 0.5 + (hero.get_attack_power() - target.get_resistance() * target.get_level()) * damage_multiplier
+        hero.update_mana(-self.getManaCost())
         if damage <= 0:
             damage = 0
             return
@@ -409,11 +415,11 @@ class Knight(Role):
         return self.__mana_regen
     
     def attack(self, hero: Character, target: Character):
-        damage_multiplier = 0.5 + hero.getLevel() / target.getLevel()
-        damage = hero.getWeapon().getWeaponPower() * 0.5 + (hero.getAttackPower() - target.getDefense() * target.getLevel()) * damage_multiplier
+        damage_multiplier = 0.5 + hero.get_level() / target.get_level()
+        damage = hero.get_weapon().getWeaponPower() * 0.5 + (hero.get_attack_power() - target.get_defense() * target.get_level()) * damage_multiplier
         damage += self.getHealthCost() * damage_multiplier
-        hero.setMana(-self.getManaCost())
-        hero.set_health(-self.getHealthCost())
+        hero.update_mana(-self.getManaCost())
+        hero.update_health(-self.getHealthCost())
         if damage <= 0:
             damage = 0
             return
