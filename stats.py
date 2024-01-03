@@ -210,11 +210,17 @@ class Stats:
         self.__defense = StatsCalculator.calculate_defense(
             self.get_STR().get_ammount(), self.get_CON().get_ammount()
         )
-    
+
+    def get_defense(self):
+        return self.__defense
+
     def set_resistance(self):
         self.__resistance = StatsCalculator.calculate_resistance(
             self.get_INT().get_ammount(), self.get_WIS().get_ammount()
         )
+
+    def get_resistance(self):
+        return self.__resistance
 
     '''
     def set_weapon_attack(self):

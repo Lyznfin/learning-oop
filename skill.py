@@ -68,26 +68,26 @@ class Bloodbound(Skill):
         
     def use_skill(self, hero:classmethod, target:classmethod):
         self.gain_skill_proficiency(50 + 12 * target.getLevel())
-        hero.setMana(-self.get_skill_cost())
+        hero.update_mana(-self.get_skill_cost())
         multiplier = self.get_skill_level() * self.get_buff_growth() + self.get_buff()
-        self.__buffDefense = multiplier * hero.getDefense() - hero.getDefense()
-        self.__buffResistance = multiplier * hero.getResistance() - hero.getResistance()
+        self.__buffDefense = multiplier * hero.get_defense() - hero.get_defense()
+        self.__buffResistance = multiplier * hero.get_resistance() - hero.get_resistance()
         print("{} has used {}, defences and resistances has been increased by {} and {} points".format(
-            hero.getName(),
+            hero.get_name(),
             self.get_skill_name(),
             self.get_buff_defense(),
             self.get_buff_resistance()
         ))
-        hero.setDefense(self.get_buff_defense())
-        hero.setResistance(self.get_buff_resistance())
+        hero.update_defense(self.get_buff_defense())
+        hero.update_resistance(self.get_buff_resistance())
         damage = self.get_skill_power() + (self.get_skill_power() * self.get_skill_level())
         damage = damage + damage * self.get_power_growth()
-        damage -= target.getDefense() * target.getLevel()
+        damage -= target.get_defense() * target.get_level()
         print("{} has infused his spear with an intensified blood aura, deals {} {} damage to {}".format(
-            hero.getName(),
+            hero.get_name(),
             damage,
             self.get_skill_type(),
-            target.getName()
+            target.get_name()
         ))
         print("{} consumed {} mana".format(self.get_skill_name(), self.get_skill_cost()))
         print(hero.infoMp)
@@ -95,8 +95,8 @@ class Bloodbound(Skill):
     
     def buff_ended(self, hero:classmethod):
         print("{} duration has ended".format(self.get_skill_name()))
-        hero.setDefense(-self.get_buff_defense())
-        hero.setResistance(-self.get_buff_resistance())
+        hero.update_defense(-self.get_buff_defense())
+        hero.update_resistance(-self.get_buff_resistance())
 
 class Tempest(Skill):
     def __init__(self) -> None:
@@ -111,19 +111,19 @@ class Tempest(Skill):
         return self.__consecutive_attack
     
     def use_skill(self, hero:classmethod, target:classmethod):
-        self.gain_skill_proficiency(50 + 12 * target.getLevel())
-        hero.setMana(-self.get_skill_cost())
+        self.gain_skill_proficiency(50 + 12 * target.get_level())
+        hero.update_mana(-self.get_skill_cost())
         damage = self.get_skill_power() + (self.get_skill_power() * self.get_skill_level() * self.get_power_growth())
-        damage -= target.getResistance() * target.getLevel()
+        damage -= target.get_resistance() * target.get_level()
         print("{} unleashed {}".format(
-                hero.getName(),
+                hero.get_name(),
                 self.get_skill_name()
         ))
         for _ in range(self.get_consecutive_attack()):
             print("The bursts of wind deals {} {} damage to {}".format(
                 round(damage, 1),
                 self.get_skill_type(),
-                target.getName()
+                target.get_name()
             ))
         print("{} consumed {} mana".format(self.get_skill_name(), self.get_skill_cost()))
         print(hero.infoMp)

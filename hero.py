@@ -2,14 +2,12 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 class Character():
-    def __init__(self, name:str, hp:float, mp:float, dp:float, rp:float, ap:float, role:classmethod) -> None:
+    def __init__(self, name:str, hp:float, mp:float, ap:float, role:classmethod) -> None:
         self.__name = name
         self.__max_health = hp
         self.__health = self.get_max_health()
         self.__max_mana = mp
         self.__mana = self.get_max_mana()
-        self.__defense = dp
-        self.__resistance = rp
         self.__attack_power = ap
         self.__shield = 0
         self.__exp = 0
@@ -20,9 +18,14 @@ class Character():
 
     def set_stats(self, stats:classmethod):
         self.__stats = stats
+        self.initialize_stats()
 
     def get_stats(self):
         return self.__stats
+
+    def initialize_stats(self):
+        self.set_defense()
+        self.set_resistance()
 
     def get_name(self):
         return self.__name
@@ -50,17 +53,23 @@ class Character():
 
     def update_mana(self, value:float):
         self.__mana += value
-    
+
+    def set_defense(self):
+        self.__defense = self.get_stats().get_defense()
+
     def get_defense(self):
         return self.__defense
     
-    def set_defense(self, value:float):
+    def update_defense(self, value:float):
         self.__defense += value
-    
+
+    def set_resistance(self):
+        self.__resistance = self.get_stats().get_resistance()
+
     def get_resistance(self):
         return self.__resistance
     
-    def set_resistance(self, value:float):
+    def update_resistance(self, value:float):
         self.__resistance += value
 
     def get_attack_power(self):
@@ -201,8 +210,8 @@ class Character():
             self.__attack_power += self.get_role().getAttackGrowth() * self.get_level()
             self.__max_health += self.get_role().getHealthGrowth() * self.get_level()
             self.__max_mana += self.get_role().getManaGrowth() * self.get_level()
-            self.set_defense(self.get_role().getDefenseGrowth() * self.get_level())
-            self.set_resistance(self.get_role().getResistanceGrowth() * self.get_level())
+            self.update_defense(self.get_role().getDefenseGrowth() * self.get_level())
+            self.update_resistance(self.get_role().getResistanceGrowth() * self.get_level())
             self.__level += 1
             self.restore_stat()
             print("{} has leveled up".format(self.get_name()))
