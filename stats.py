@@ -14,16 +14,6 @@ class Base_Stats(Enum):
     DEF = 15
     RES = 10
 
-class Current_Stats(Enum):
-    HP = int
-    MP = 150
-    SP = 120
-    CRIT = 0.05
-    CRITDMG = 0.5
-    ASPD = 1
-    DEF = 15
-    RES = 10
-
 class Attribute(ABC):
     @abstractmethod
     def get_ammount(self) -> int:
@@ -110,49 +100,58 @@ class WIS(Attribute):
 class StatsCalculator:
     @staticmethod
     def calculate_hp(con_value:int):
-        return Base_Stats.HP.value + (Base_Stats.HP.value * (0.35 * con_value)) * 0.25
+        return round(Base_Stats.HP.value + (Base_Stats.HP.value * (0.35 * con_value)) * 0.2)
     
     @staticmethod
     def calculate_mp(wis_value:int):
-        return Base_Stats.MP.value + (Base_Stats.MP.value * (0.20 * wis_value)) * 0.25
+        return round(Base_Stats.MP.value + (Base_Stats.MP.value * (0.2 * wis_value)) * 0.25)
     
     @staticmethod
     def calculate_sp(con_value:int):
-        return Base_Stats.SP.value + (Base_Stats.SP.value * (0.20 * con_value)) * 0.2
+        return round(Base_Stats.SP.value + (Base_Stats.SP.value * (0.2 * con_value)) * 0.22)
     
     @staticmethod
-    def calculate_crit(con_value:int):
-        return Base_Stats.CRIT.value + (Base_Stats.CRIT.value * (0.25 * con_value)) * 0.2
+    def calculate_crit(dex_value:int):
+        return round(Base_Stats.CRIT.value + (0.025 * dex_value) * 0.05, 3)
     
     @staticmethod
-    def calculate_critdmg(con_value:int):
-        return Base_Stats.CRITDMG.value + (Base_Stats.CRITDMG.value * (0.25 * con_value)) * 0.2
+    def calculate_critdmg(dex_value:int):
+        return round(Base_Stats.CRITDMG.value + (0.25 * dex_value) * 0.1, 3)
     
     @staticmethod
-    def calculate_aspd(con_value:int):
-        return Base_Stats.ASPD.value + (Base_Stats.ASPD.value * (0.25 * con_value)) * 0.2
+    def calculate_aspd(dex_value:int):
+        return round(Base_Stats.ASPD.value + (Base_Stats.ASPD.value * (0.05 * dex_value)) * 0.2, 3)
 
     @staticmethod
     def calculate_defense(str_value:int, con_value:int):
-        return Base_Stats.DEF.value + (Base_Stats.DEF.value * ((0.5 * str_value) + (0.75 * con_value))) * 0.2
+        return round(Base_Stats.DEF.value + (Base_Stats.DEF.value * ((0.5 * str_value) + (0.75 * con_value))) * 0.2)
     
     @staticmethod
     def calculate_resistance(int_value:int, wis_value:int):
-        return Base_Stats.RES.value + (Base_Stats.RES.value * ((0.5 * int_value) + (0.75 * wis_value))) * 0.2
+        return round(Base_Stats.RES.value + (Base_Stats.RES.value * ((0.5 * int_value) + (0.75 * wis_value))) * 0.2)
 
 class Stats():
     def __init__(self, str:int, dex:int, con:int, int:int, wis:int) -> None:
-        assert str >= 0, f"stat can not be below zero!"
-        assert dex >= 0, f"stat can not be below zero!"
-        assert con >= 0, f"stat can not be below zero!"
-        assert int >= 0, f"stat can not be below zero!"
-        assert wis >= 0, f"stat can not be below zero!"
+        assert str.get_ammount() >= 0, f"stat can not be below zero!"
+        assert dex.get_ammount() >= 0, f"stat can not be below zero!"
+        assert con.get_ammount() >= 0, f"stat can not be below zero!"
+        assert int.get_ammount() >= 0, f"stat can not be below zero!"
+        assert wis.get_ammount() >= 0, f"stat can not be below zero!"
 
         self.__STR = str
         self.__DEX = dex
         self.__CON = con
         self.__INT = int
         self.__WIS = wis
+
+        self.set_health()
+        self.set_mana()
+        self.set_stamina()
+        self.set_crit()
+        self.set_critdmg()
+        self.set_attack_speed()
+        self.set_defense()
+        self.set_resistance()
 
     def get_STR(self):
         return self.__STR
@@ -170,34 +169,49 @@ class Stats():
         return self.__WIS
 
     def set_health(self):
-        return StatsCalculator.calculate_defense(
+        self.__health = StatsCalculator.calculate_hp(
             self.get_CON().get_ammount()
         )
 
     def set_mana(self):
-        Base_Stats.MP.value
+        self.__mana = StatsCalculator.calculate_mp(
+            self.get_WIS().get_ammount()
+        )
 
     def set_stamina(self):
-        Base_Stats.SP.value
+        self.__stamina = StatsCalculator.calculate_sp(
+            self.get_CON().get_ammount()
+        )
 
     def set_crit(self):
-        Base_Stats.CRIT.value
+        self.__crit = StatsCalculator.calculate_crit(
+            self.get_DEX().get_ammount()
+        )
+
+    def set_critdmg(self):
+        self.__critdmg = StatsCalculator.calculate_critdmg(
+            self.get_DEX().get_ammount()
+        )
 
     def set_attack_speed(self):
-        Base_Stats.ASPD.value
+        self.__aspd = StatsCalculator.calculate_aspd(
+            self.get_DEX().get_ammount()
+        )
 
     def set_defense(self):
-        return StatsCalculator.calculate_defense(
+        self.__defense = StatsCalculator.calculate_defense(
             self.get_STR().get_ammount(), self.get_CON().get_ammount()
         )
     
     def set_resistance(self):
-        Base_Stats.RES.value
+        self.__resistance = StatsCalculator.calculate_resistance(
+            self.get_INT().get_ammount(), self.get_WIS().get_ammount()
+        )
 
     def set_weapon_attack(self):
         pass
 
-    def print_stats(self):
+    def print_attribute(self):
         print('STR: {} \nDEX: {} \nCON: {} \nINT: {} \nWIS: {}'.format(
             self.get_STR().get_ammount(),
             self.get_DEX().get_ammount(),
@@ -205,8 +219,21 @@ class Stats():
             self.get_INT().get_ammount(),
             self.get_WIS().get_ammount()
         ))
+
+    def print_stats(self):
+        print('HP: {} \nMP: {} \nSP: {} \nCRIT: {} \nCRIT DMG: {} \nASPD: {} \nDEF: {} \nRES: {}'.format(
+            self.__health,
+            self.__mana,
+            self.__stamina,
+            self.__crit,
+            self.__critdmg,
+            self.__aspd,
+            self.__defense,
+            self.__resistance
+        ))
     
 
-obj = Stats(STR(3), DEX(4), CON(12), INT(21), WIS(12))
+obj = Stats(STR(3), DEX(6), CON(12), INT(21), WIS(12))
 
+obj.print_attribute()
 obj.print_stats()

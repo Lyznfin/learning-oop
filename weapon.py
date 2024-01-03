@@ -13,8 +13,13 @@ class Weapon_Types(Enum):
     T9 = 'Hammer'
     T10 = 'Unique'
 
+valid_weapon_types = {item.value for item in Weapon_Types}
+
 class Weapon():
     def __init__(self, name:str, type:str, power:float, ability:classmethod) -> None:
+        assert type in valid_weapon_types, "Invalid Weapon Type"
+        assert isinstance(name, str) and name.strip(), "Name cannot be empty or None"
+        assert isinstance(power, (float, int)) and power > 0, "Power should be a positive number"
         self.__weapon_name = name
         self.__weapon_type = type
         self.__weapon_power = power
