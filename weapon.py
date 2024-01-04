@@ -83,7 +83,7 @@ class Bloodvalor(Weapon, Skill):
         
         if self.get_skill_cost() <= hero.get_mana():
             hero.update_mana(-self.get_skill_cost())
-            hero.add_shield(self.get_ability_shield())
+            hero.set_shield(self.get_ability_shield())
             print("{} casted Ironheart Resilience, create {} points of shield".format(
                 hero.get_name(),
                 self.get_ability_shield()
@@ -105,8 +105,8 @@ class Bloodvalor(Weapon, Skill):
 class Zephyr(Weapon, Skill):
     def __init__(self) -> None:
         super().__init__("Zephyr Embrace",  Weapon_Types.T4.value, 87, Skill.__init__(self, "Galeweave", 73, 82, Skill_Type.T2.value))
-        self.__buff_multiplier = 0.5
-        self.__buff_growth = 1
+        self.__buff_multiplier = 0.25
+        self.__buff_growth = 0.5
         self.__damage_growth = 0.2
 
     def get_ability_growth(self):

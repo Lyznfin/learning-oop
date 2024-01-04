@@ -7,7 +7,6 @@ class Character():
         self.__health = None
         self.__mana = None
         self.__attack_power = ap
-        self.__shield = 0
         self.__exp = 0
         self.__level = 1
         self.__isAlive = True
