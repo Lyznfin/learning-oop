@@ -6,6 +6,7 @@ class Character():
         self.__name = name
         self.__health = None
         self.__mana = None
+        self.__shield = 0
         self.__attack_power = ap
         self.__exp = 0
         self.__level = 1
@@ -320,9 +321,20 @@ class Element(Enum):
     EA15 = 'Chaos'
     EA16 = 'Space'
 
+class Character_Class(Enum):
+    CC1 = 'Knight'
+    CC2 = 'Wizard'
+    CC3 = 'Archer'
+    CC4 = 'Gunner'
+    CC5 = 'Brawler'
+    CC6 = 'Berserker'
+    CC7 = 'Traveler'
+    CC8 = 'Priest'
+    CC9 = 'Enhancer'
+
 class Wizard(Role):
     def __init__(self, element) -> None:
-        self.__role = "magician"
+        self.__role = Character_Class.CC2.value
         self.__element = element
         self.__attack_type = "magical"
         self.__attack_growth = 13
@@ -369,13 +381,14 @@ class Wizard(Role):
 
     def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.get_level() / target.get_level()
-        damage = hero.get_weapon().getWeaponPower() * 0.5 + (hero.get_attack_power() - target.get_resistance() * target.get_level()) * damage_multiplier
+        damage = hero.get_weapon().get_weapon_power() * 0.5 + (hero.get_attack_power() - target.get_resistance() * target.get_level()) * damage_multiplier
         hero.update_mana(-self.get_mana_cost())
         if damage <= 0:
             damage = 0
             return
-        print("{} casted a {} magic and deals {} points of {} damage to {}".format(
+        print("{} used {} to casted a {} magic and deals {} points of {} damage to {}".format(
             hero.get_name(),
+            hero.get_weapon().get_weapon_type(),
             self.get_type(),
             damage,
             self.get_attack_type(),
@@ -387,7 +400,7 @@ class Wizard(Role):
 
 class Knight(Role):
     def __init__(self, aura) -> None:
-        self.__role = "warrior"
+        self.__role = Character_Class.CC1.value
         self.__aura = aura
         self.__attack_type = "physical"
         self.__attack_growth = 9
@@ -438,15 +451,16 @@ class Knight(Role):
     
     def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.get_level() / target.get_level()
-        damage = hero.get_weapon().getWeaponPower() * 0.5 + (hero.get_attack_power() - target.get_defense() * target.get_level()) * damage_multiplier
+        damage = hero.get_weapon().get_weapon_power() * 0.5 + (hero.get_attack_power() - target.get_defense() * target.get_level()) * damage_multiplier
         damage += self.get_health_cost() * damage_multiplier
         hero.update_mana(-self.get_mana_cost())
         hero.update_health(-self.get_health_cost())
         if damage <= 0:
             damage = 0
             return
-        print("{} swing his weapon with {} aura and deals {} points of {} damage to {}".format(
+        print("{} swing his {} imbued with {} aura and deals {} points of {} damage to {}".format(
             hero.get_name(),
+            hero.get_weapon().get_weapon_type(),
             self.get_type(),
             damage,
             self.get_attack_type(),

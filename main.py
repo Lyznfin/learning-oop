@@ -21,5 +21,7 @@ claire.set_skill(Tempest())
 aldric.use_ability(claire)
 claire.use_ability(aldric)
 
+aldric.attack(claire)
+
 print(claire.__dict__)
 print(aldric.__dict__)

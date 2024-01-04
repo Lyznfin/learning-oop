@@ -98,7 +98,7 @@ class Bloodvalor(Weapon, Skill):
             print(hero.infoMp)
             print("{} mana is less than {}, cannot use {} ability".format(
                 hero.get_name(), 
-                self.get_weapon_ability().getSkillCost(),
+                self.get_weapon_ability().get_skill_cost(),
                 self.get_weapon_name()))
             return
 
