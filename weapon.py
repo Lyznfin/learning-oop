@@ -15,6 +15,22 @@ class Weapon_Types(Enum):
 
 valid_weapon_types = {item.value for item in Weapon_Types}
 
+def weap_attack(*args, **kwargs):
+    a = 0
+    while kwargs:
+        match kwargs:
+            case 'STR':
+                a += args + 1
+            case 'DEX':
+                a += args + 2
+            case 'CON':
+                a += args + 3
+            case 'INT':
+                a += args + 4
+            case 'WIS':
+                a += args + 5
+
+
 class Weapon:
     def __init__(self, name:str, type:str, power:float, ability:classmethod) -> None:
         assert type in valid_weapon_types, "Invalid Weapon Type"
@@ -50,7 +66,7 @@ class Weapon:
 
     def use_ability(self, hero:classmethod, target:classmethod):
         pass
-        
+
 class Bloodvalor(Weapon, Skill):
     def __init__(self) -> None:
         super().__init__("Bloodvalor Reach", Weapon_Types.T2.value, 54, Skill.__init__(self, "Ironheart Resilience", 41, 55, Skill_Type.T1.value))

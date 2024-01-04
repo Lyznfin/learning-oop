@@ -98,7 +98,7 @@ class WIS(Attribute):
     def update_ammount(self, val) -> int:
         self.__ammount += val
 
-class StatsCalculator:
+class Stats_Calculator:
     @staticmethod
     def calculate_hp(con_value:int):
         return round(Base_Stats.HP.value + (Base_Stats.HP.value * (0.35 * con_value)) * 0.2)
@@ -177,7 +177,7 @@ class Stats:
         return self.__WIS
 
     def set_health(self):
-        self.__health = StatsCalculator.calculate_hp(
+        self.__health = Stats_Calculator.calculate_hp(
             self.get_CON().get_ammount()
         )
 
@@ -185,7 +185,7 @@ class Stats:
         return self.__health
 
     def set_mana(self):
-        self.__mana = StatsCalculator.calculate_mp(
+        self.__mana = Stats_Calculator.calculate_mp(
             self.get_WIS().get_ammount()
         )
 
@@ -193,27 +193,27 @@ class Stats:
         return self.__mana
 
     def set_stamina(self):
-        self.__stamina = StatsCalculator.calculate_sp(
+        self.__stamina = Stats_Calculator.calculate_sp(
             self.get_CON().get_ammount()
         )
 
     def set_crit(self):
-        self.__crit = StatsCalculator.calculate_crit(
+        self.__crit = Stats_Calculator.calculate_crit(
             self.get_DEX().get_ammount()
         )
 
     def set_critdmg(self):
-        self.__critdmg = StatsCalculator.calculate_critdmg(
+        self.__critdmg = Stats_Calculator.calculate_critdmg(
             self.get_DEX().get_ammount()
         )
 
     def set_attack_speed(self):
-        self.__aspd = StatsCalculator.calculate_aspd(
+        self.__aspd = Stats_Calculator.calculate_aspd(
             self.get_DEX().get_ammount()
         )
 
     def set_defense(self):
-        self.__defense = StatsCalculator.calculate_defense(
+        self.__defense = Stats_Calculator.calculate_defense(
             self.get_STR().get_ammount(), self.get_CON().get_ammount()
         )
 
@@ -221,7 +221,7 @@ class Stats:
         return self.__defense
 
     def set_resistance(self):
-        self.__resistance = StatsCalculator.calculate_resistance(
+        self.__resistance = Stats_Calculator.calculate_resistance(
             self.get_INT().get_ammount(), self.get_WIS().get_ammount()
         )
 
