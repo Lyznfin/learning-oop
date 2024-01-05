@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from weapon import Weapon_Types
 
 #might be ridiculous, but belive me, this spageth classes is intentional
 #well, as one might say, its for the purpose of research (i actually have no idea why im doing this)
@@ -37,9 +36,13 @@ class STR(Attribute):
         return self.__ammount
 
     def set_ammount(self, val) -> int:
+        if val < 0:
+            return print(f"cannot assign a minus stat")
         self.__ammount = val
     
     def update_ammount(self, val) -> int:
+        if self.get_ammount() + val < 0:
+            return print(f"cannot have a minus stat")
         self.__ammount += val
 
 class DEX(Attribute):
@@ -51,9 +54,13 @@ class DEX(Attribute):
         return self.__ammount
 
     def set_ammount(self, val) -> int:
+        if val < 0:
+            return print(f"cannot assign a minus stat")
         self.__ammount = val
     
     def update_ammount(self, val) -> int:
+        if self.get_ammount() + val < 0:
+            return print(f"cannot have a minus stat")
         self.__ammount += val
     
 class CON(Attribute):
@@ -65,9 +72,13 @@ class CON(Attribute):
         return self.__ammount
 
     def set_ammount(self, val) -> int:
+        if val < 0:
+            return print(f"cannot assign a minus stat")
         self.__ammount = val
     
     def update_ammount(self, val) -> int:
+        if self.get_ammount() + val < 0:
+            return print(f"cannot have a minus stat")
         self.__ammount += val
     
 class INT(Attribute):
@@ -79,9 +90,13 @@ class INT(Attribute):
         return self.__ammount
 
     def set_ammount(self, val) -> int:
+        if val < 0:
+            return print(f"cannot assign a minus stat")
         self.__ammount = val
     
     def update_ammount(self, val) -> int:
+        if self.get_ammount() + val < 0:
+            return print(f"cannot have a minus stat")
         self.__ammount += val
     
 class WIS(Attribute):
@@ -93,9 +108,13 @@ class WIS(Attribute):
         return self.__ammount
 
     def set_ammount(self, val) -> int:
+        if val < 0:
+            return print(f"cannot assign a minus stat")
         self.__ammount = val
     
     def update_ammount(self, val) -> int:
+        if self.get_ammount() + val < 0:
+            return print(f"cannot have a minus stat")
         self.__ammount += val
 
 class Stats_Calculator:
@@ -227,30 +246,6 @@ class Stats:
 
     def get_resistance(self):
         return self.__resistance
-
-    '''
-    def set_weapon_attack(self):
-        match Weapon_Types.value:
-            case 'Sword':
-                pass
-            case 'Polearm':
-                pass
-            case 'Bow':
-                pass
-            case 'Wand':
-                pass
-            case 'Axe':
-                pass
-            case 'Firearm':
-                pass
-            case 'Gauntlet':
-                pass
-            case 'Orb':
-                pass
-            case 'Hammer':
-                pass
-            case 'Unique':
-                pass '''
 
     def print_attribute(self):
         print('STR: {} \nDEX: {} \nCON: {} \nINT: {} \nWIS: {}'.format(

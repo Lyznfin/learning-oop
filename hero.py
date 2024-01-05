@@ -116,6 +116,9 @@ class Character():
     def get_weapon(self):
         return self.__weapon
 
+    def set_weapon_power(self):
+        self.get_weapon().set_weapon_power(self.get_stats())
+
     def set_skill(self, skill:classmethod):
         self.__skill = skill
 
