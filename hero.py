@@ -384,7 +384,7 @@ class Wizard(Role):
 
     def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.get_level() / target.get_level()
-        damage = hero.get_weapon().get_weapon_power() * 0.5 + (hero.get_attack_power() - target.get_resistance() * target.get_level()) * damage_multiplier
+        damage = hero.get_weapon().get_weapon_base_power() * 0.5 + (hero.get_attack_power() - target.get_resistance() * target.get_level()) * damage_multiplier
         hero.update_mana(-self.get_mana_cost())
         if damage <= 0:
             damage = 0
@@ -454,7 +454,7 @@ class Knight(Role):
     
     def attack(self, hero: Character, target: Character):
         damage_multiplier = 0.5 + hero.get_level() / target.get_level()
-        damage = hero.get_weapon().get_weapon_power() * 0.5 + (hero.get_attack_power() - target.get_defense() * target.get_level()) * damage_multiplier
+        damage = hero.get_weapon().get_weapon_base_power() * 0.5 + (hero.get_attack_power() - target.get_defense() * target.get_level()) * damage_multiplier
         damage += self.get_health_cost() * damage_multiplier
         hero.update_mana(-self.get_mana_cost())
         hero.update_health(-self.get_health_cost())
